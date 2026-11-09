@@ -311,6 +311,18 @@ details.tb summary{cursor:pointer;color:var(--accent);font-size:13px;padding:6px
 .av.img{background-color:#fff;background-size:contain;background-position:center;background-repeat:no-repeat;border:1px solid var(--line,#e3e6ef)}
 .av.img[style*="url('')"]{background-image:none!important}
 .inp{border:1.5px solid var(--line);border-radius:12px;background:var(--bg);padding:8px 10px;color:var(--fg);outline:0}.inp:focus{border-color:var(--accent)}
+.botb{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:var(--brand,#3B2216);color:#fff;flex:none;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.bchat{max-height:38vh;overflow:auto;display:flex;flex-direction:column;gap:8px;padding:4px 2px 8px}
+.bb{max-width:88%;padding:9px 13px;border-radius:16px;font-size:14px;line-height:1.8}
+.bb.bt{align-self:flex-start;background:var(--card2,rgba(120,90,60,.12))}
+.bb.me{align-self:flex-end;background:var(--brand,#3B2216);color:#fff}
+.bch{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.bin{display:flex;gap:8px;align-items:center;margin-top:8px}
+.bin input{flex:1;min-width:0;height:46px;border-radius:14px;border:1px solid rgba(120,90,60,.3);padding:0 14px;background:transparent;color:inherit;font:inherit}
+.bmic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:rgba(120,90,60,.15);color:inherit;flex:none}
+.bmic.rec{background:#d33;color:#fff;animation:bpulse 1s infinite}
+.bsend{width:46px;height:46px;padding:0;display:grid;place-items:center;flex:none}
+@keyframes bpulse{50%{opacity:.55}}
 
 </style>
 <div id="app"><main id="main"></main><nav class="bar" id="nav" aria-label="بخش‌های اصلی"></nav></div><div id="pages"></div><div id="sheets"></div>
@@ -1762,6 +1774,8 @@ const IC = {
   users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 19c.7-3.4 3.2-5 6.5-5s5.8 1.6 6.5 5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.5 0 4 1.4 4.5 4"/>',
   check: '<path d="M5 12.5l4.5 4.5L19 7"/>',
   edit: '<path d="M4 20h4L19 9l-4-4L4 16z"/>',
+  bot: '<rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 4v4M9 13h.01M15 13h.01M9.5 16.5h5M3 12v3M21 12v3"/><circle cx="12" cy="3.5" r="1"/>',
+  mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/>',
   chart: '<path d="M4 20V5M4 20h16"/><path d="M8 15l3-4 3 2 4-6"/>',
   gear: '<circle cx="12" cy="12" r="3"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8"/>',
   calendar: '<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/>',
@@ -1884,7 +1898,7 @@ function tabLedger() {
     const s = L.summary(S, { from: r && r.from, to: r && r.to, ledgerId: lid });
     status = '<div class="lbl">فروش و سود در این بازه</div><div class="val">' + mu(s.rev) + '</div><div class="lbl">سود ناخالص: <b class="' + (s.profit < 0 ? 'neg' : 'pos') + '">' + mu(s.profit) + '</b> • ' + fa(s.count) + ' فاکتور</div><div class="lbl">سود خالص شما (بعد از شرکا، ویزیتور و هزینه‌ها): <b class="' + (s.net < 0 ? 'neg' : 'pos') + '">' + mu(s.net) + '</b></div>';
   }
-  const head = '<div class="top"><div class="hrow"><span class="blogo" aria-hidden="true"></span><button class="ledger-pick tap" data-a="ledgers"><span class="t"><b>' + esc(ledger().name) + '</b><small>برای تغییر یا ویرایش دفتر کلیک کنید • ' + cur() + '</small></span>' + ico('down', 20) + '</button></div>' +
+  const head = '<div class="top"><div class="hrow"><span class="blogo" aria-hidden="true"></span><button class="ledger-pick tap" data-a="ledgers"><span class="t"><b>' + esc(ledger().name) + '</b><small>برای تغییر یا ویرایش دفتر کلیک کنید • ' + cur() + '</small></span>' + ico('down', 20) + '</button><button class="botb tap" data-a="bot" aria-label="ربات دستیار">' + ico('bot', 24) + '</button></div>' +
     '<div class="seg"><button class="tap' + (ui.sub === 'parties' ? ' on' : '') + '" data-a="sub" data-id="parties">طرف‌حساب‌ها</button><button class="tap' + (ui.sub === 'txns' ? ' on' : '') + '" data-a="sub" data-id="txns">تراکنش‌ها</button></div>' +
     rangeChips() +
     '<div class="status">' + status + '</div>' +
@@ -4844,6 +4858,190 @@ A['go-purch'] = () => {
 A['sp-txt'] = () => { const c = spCalc(); if (!c.rows.some(r => r.need > 0)) return toast('کالایی برای سفارش نیست.', 1); openSheet('<h3 class="st">متن سفارش خرید</h3><textarea id="smt" class="inp" rows="10" style="width:100%;min-height:200px;direction:rtl">' + esc(spText(c.rows)) + '</textarea>' + smsSendBtns('', '')); };
 A['sp-set'] = () => openSheet('<h3 class="st">تنظیم پیشنهاد خرید</h3>' + field('پوشش چند روز فروش را بخرم؟', 'sp-t', fa(S.settings.spTarget || 30)) + field('رسیدن بار از سفارش چند روز طول می‌کشد؟', 'sp-l', fa(S.settings.spLead || 7)) + '<div class="pr"><button class="btn tap" data-a="sp-save">ذخیره</button></div>');
 A['sp-save'] = t => { S.settings.spTarget = Math.max(1, +smsEn($('#sp-t').value) || 30); S.settings.spLead = Math.max(0, +smsEn($('#sp-l').value) || 7); save(); closeSheet(); const pg = pages[pages.length - 1]; pg && pg._redraw && pg._redraw(); toast('ذخیره شد'); };
+
+/* ================= ربات دستیار ================= */
+const BW = { صفر: 0, یک: 1, دو: 2, سه: 3, چهار: 4, پنج: 5, شش: 6, هفت: 7, هشت: 8, نه: 9, ده: 10, یازده: 11, دوازده: 12, سیزده: 13, چهارده: 14, پانزده: 15, شانزده: 16, هفده: 17, هجده: 18, نوزده: 19, بیست: 20, سی: 30, چهل: 40, پنجاه: 50, شصت: 60, هفتاد: 70, هشتاد: 80, نود: 90, صد: 100, دویست: 200, سیصد: 300, چهارصد: 400, پانصد: 500, ششصد: 600, هفتصد: 700, هشتصد: 800, نهصد: 900, نیم: 0.5 };
+const BM = { هزار: 1e3, میلیون: 1e6, ملیون: 1e6, میلیارد: 1e9 };
+const BUNIT = /^(کیلو|کیلوگرم|کیلویی|گرم|عدد|کارتن|بسته|بسته‌ی|بار|پک|بیست)$/;
+const bn = t => moN(t).replace(/[؟?!.،,:؛]/g, ' ').replace(/\s+/g, ' ').trim();
+/* متن → توکن‌ها: {w:'کلمه'} یا {n:عدد} */
+function botTok(txt) {
+  const raw = bn(txt).split(' ').filter(Boolean), out = []; let i = 0;
+  const isNum = w => /^\d+(\.\d+)?$/.test(w) || (w in BW) || (w in BM) || w === 'و';
+  while (i < raw.length) {
+    const w = raw[i];
+    if ((/^\d/.test(w) || (w in BW) || (w in BM)) && !(w === 'نه' && raw[i + 1] && !(raw[i + 1] in BM) && !/^\d/.test(raw[i + 1]) && !(raw[i + 1] in BW) && false)) {
+      let tot = 0, cur_ = 0, j = i, any = false;
+      while (j < raw.length && isNum(raw[j])) {
+        const x = raw[j];
+        if (x === 'و') { if (!(raw[j + 1] && (/^\d/.test(raw[j + 1]) || raw[j + 1] in BW || raw[j + 1] in BM))) break; j++; continue; }
+        if (x in BM) { tot += (cur_ || 1) * BM[x]; cur_ = 0; any = true; }
+        else if (/^\d/.test(x)) { if (any && cur_ === 0 && j > i && /^\d/.test(raw[j - 1])) break; cur_ += parseFloat(x); any = true; }
+        else { cur_ += BW[x]; any = true; }
+        j++;
+      }
+      if (any) { out.push({ n: tot + cur_ }); i = j; continue; }
+    }
+    out.push({ w }); i++;
+  }
+  return out;
+}
+const bSet = s => new Set(bn(s).split(' ').filter(x => x.length > 1));
+/* پیدا کردن موجودیت‌ها (محصول‌ها و طرف‌حساب) */
+function botFind(toks) {
+  const words = toks.map(t => t.w || null), used = new Set(), lid = S.activeLedger;
+  const prods = S.products.map(p => ({ p, ws: bn(p.name).split(' ').filter(x => x.length > 1) })).filter(x => x.ws.length).sort((a, b) => b.ws.length - a.ws.length), items = [];
+  const matchRun = (ws, minFrac) => { /* بهترین جایگاه که کلمات نام کنار هم یا نزدیک هم باشد */
+    let best = null;
+    for (let s = 0; s < words.length; s++) { if (words[s] === null || used.has(s)) continue;
+      const idx = []; for (const w of ws) { for (let k = s; k < Math.min(words.length, s + ws.length + 3); k++) if (!used.has(k) && words[k] === w && !idx.includes(k)) { idx.push(k); break; } }
+      const frac = idx.length / ws.length; if (idx.length && frac >= minFrac && (!best || frac > best.frac || (frac === best.frac && idx.length > best.idx.length))) best = { idx, frac };
+    } return best; };
+  for (const x of prods) { const m = matchRun(x.ws, x.ws.length > 1 ? 0.67 : 1); if (m) { m.idx.forEach(k => used.add(k)); items.push({ p: x.p, at: Math.min(...m.idx), end: Math.max(...m.idx) }); } }
+  for (const x of prods) { if (items.some(y => y.p === x.p)) continue; for (const w of x.ws) { if (w.length < 3 || prods.filter(z => z.ws.includes(w)).length !== 1) continue; const k = words.findIndex((y, kk) => y === w && !used.has(kk)); if (k >= 0) { used.add(k); items.push({ p: x.p, at: k, end: k }); break; } } }
+  items.sort((a, b) => a.at - b.at);
+  let party = null, amb = [];
+  const ps = S.parties.filter(p => p.ledgerId === lid).map(p => ({ p, ws: bn(p.name).split(' ').filter(x => x.length > 2 && !/^(اقای|آقای|خانم|شرکت|فروشگاه|اقا|آقا|دکتر|مهندس)$/.test(x)) })).filter(x => x.ws.length);
+  let bs = 0;
+  for (const x of ps) { const hit = x.ws.filter(w => words.some((y, k) => y === w && !used.has(k))).length, sc = hit / x.ws.length; if (hit && sc >= 0.5) { const tot = sc * 10 + hit; if (tot > bs) { bs = tot; party = x.p; amb = [x.p]; } else if (tot === bs) amb.push(x.p); } }
+  if (party && amb.length > 1) party = null; else amb = [];
+  if (party) { const x = ps.find(q => q.p === party); x.ws.forEach(w => { const k = words.findIndex((y, kk) => y === w && !used.has(kk)); if (k >= 0) used.add(k); }); }
+  return { items, party, amb, used };
+}
+/* قیمت و مقدار هر قلم */
+function botNums(toks, items, used) {
+  const nums = toks.map((t, k) => t.n !== undefined ? k : -1).filter(k => k >= 0);
+  const kw = k => toks[k] && toks[k].w;
+  const res = items.map(() => ({ qty: null, price: null })), free = [];
+  const priceKw = /^(کیلویی|عددی|فی|قیمت|قیمتش|تومانی|ریالی|هرکیلو|هرعدد|بهای|هرکارتن)$/;
+  for (const k of nums) {
+    const next = kw(k + 1), prev = kw(k - 1), prev2 = kw(k - 2), val = toks[k].n;
+    let owner = 0; if (items.length > 1) { let b = 0; items.forEach((it, i) => { if (it.at <= k + 2) b = i; }); owner = b; }
+    if (!items.length) { free.push({ k, val, next, prev }); continue; }
+    if (prev && priceKw.test(prev) || (prev === 'هر' ) || (prev2 === 'به' && /^(قیمت|فی)$/.test(prev)) || next === 'کیلویی' || next === 'عددی' || /^(تومانی|ریالی)$/.test(next || '')) { if (res[owner].price === null) res[owner].price = val; continue; }
+    if (next && BUNIT.test(next) && next !== 'کیلویی') { if (res[owner].qty === null) res[owner].qty = next === 'گرم' ? val / 1000 : val; continue; }
+    free.push({ k, val, owner, next, prev });
+  }
+  for (const f of free) { if (f.owner === undefined) continue; const r = res[f.owner]; if (r.qty === null) r.qty = f.val; else if (r.price === null) r.price = f.val; }
+  const amt = free.filter(f => f.owner === undefined).map(f => f.val);
+  return { res, amt, free };
+}
+function botCur(toks, v) { const t = toks.map(x => x.w).join(' '); if (/تومن|تومان/.test(t) && cur() === 'ریال') return v * 10; if (/ریال/.test(t) && cur() !== 'ریال') return v / 10; return v; }
+const BNAV = [['ledger', /(^| )(دفتر|صفحه اصلی|خانه)( |$)/], ['inv', /(^| )(انبار محصولات|انبار|موجودی)( |$)/], ['acct', /(^| )(حساب ها|حسابها|حساب‌ها|کارت ها|نقدینگی)( |$)/], ['money', /(^| )(درآمد و هزینه|درآمد هزینه|هزینه ها|درامد)( |$)/], ['more', /(^| )(بیشتر|منو|منوی بیشتر)( |$)/]];
+const BGO = /(برو|ببر|باز کن|بازکن|نشون|نشان|نمایش|بیار|ببین|برم|میخوام ببینم|می خوام ببینم|می‌خوام ببینم|بزن روی|برو تو|برو توی|برو به|ورود به)/;
+const bot = { chat: [], st: null, rec: null };
+function botSay(h, me) { bot.chat.push({ me: !!me, h }); const c = $('#bchat'); if (c) { c.insertAdjacentHTML('beforeend', botBub(bot.chat[bot.chat.length - 1])); c.scrollTop = c.scrollHeight; } }
+const botBub = m => '<div class="bb ' + (m.me ? 'me' : 'bt') + '">' + m.h + '</div>';
+function botClose(fn) { const w = $('#botw'); if (w) closeSheet(w); setTimeout(fn, 230); }
+function botNavSection(q) {
+  const items = moItems(), toks = q.split(' ').filter(x => x.length > 1 && !BGO.test(x) && !/^(رو|را|به|از|توی|تو|لطفا|منو|من|ها|های|لیست|صفحه|بخش)$/.test(x));
+  if (!toks.length) return null;
+  const hay = i => moN(i[2] + ' ' + (MOKW[i[0]] || '')), title = i => moN(i[2]);
+  let best = null, bs = 0;
+  for (const i of items) { const h = hay(i), t = title(i); let sc = 0; for (const w of toks) { const w2 = w.replace(/ها$/, '').replace(/ی$/, ''); if (t.includes(w) || (w2.length > 2 && t.includes(w2))) sc += 3; else if (h.includes(w) || (w2.length > 2 && h.includes(w2))) sc += 1; } if (sc > bs) { bs = sc; best = i; } }
+  return bs >= 2 ? best : null;
+}
+function botOpenInv(kind, st, pro) {
+  const items = st.items.map(x => ({ pid: x.pid, qty: x.qty || 1, price: x.price || (kind === 'sale' ? lastSalePrice(x.pid, st.party) : 0) || 0, partners: [] }));
+  botClose(() => { if (pro) openInvoice('sale', { proforma: true, pre: { partyId: st.party || '', items } }); else if (items.length || st.party) openInvoice(kind, { pre: { partyId: st.party || '', items, pay: st.pay } }); else openInvoice(kind); });
+}
+function botAsk(st) {
+  const K = st.k, kl = { sale: 'فاکتور فروش', buy: 'فاکتور خرید', pre: 'پیش‌فاکتور' }[K];
+  if (K === 'sale' || K === 'buy' || K === 'pre') {
+    if (!st.party) return botSay((K === 'buy' ? 'تأمین‌کننده کیست؟' : 'مشتری (طرف‌حساب) کیست؟') + chipsBot(S.parties.filter(p => p.ledgerId === S.activeLedger).slice(0, 6).map(p => p.name)));
+    if (!st.items.length) return botSay('نام محصول و مقدارش را بگو؛ مثلاً «۲۰ کیلو ' + esc(((S.products[0] || {}).name) || 'ربوستا') + '».' + chipsBot(S.products.slice(0, 6).map(p => p.name)));
+    const bad = st.items.find(x => !x.qty); if (bad) return botSay('مقدار «' + esc(prod(bad.pid).name) + '» چقدر است؟');
+    const nop = st.items.find(x => !x.price && !(K !== 'buy' && lastSalePrice(x.pid, st.party))); if (nop) return botSay('قیمت هر واحد «' + esc(prod(nop.pid).name) + '» چقدر است؟');
+    const sm = st.items.map(x => esc(prod(x.pid).name) + ' ' + qf(x.qty)).join('، ');
+    botSay('✅ ' + kl + ' برای <b>' + esc(party(st.party).name) + '</b>: ' + sm + '<br>فرم را پر کردم و باز می‌کنم؛ بررسی و ذخیره کن.');
+    st.done = 1; botOpenInv(K === 'pre' ? 'sale' : K, st, K === 'pre'); bot.st = null; return;
+  }
+  if (K === 'receipt' || K === 'payment') {
+    if (!st.party) return botSay('با چه کسی؟ نام طرف‌حساب را بگو.' + chipsBot(S.parties.filter(p => p.ledgerId === S.activeLedger).slice(0, 6).map(p => p.name)));
+    if (!st.amt) return botSay('مبلغ چقدر است؟');
+    botSay('✅ ' + (K === 'receipt' ? 'دریافت' : 'پرداخت') + ' <b>' + mu(st.amt) + '</b> با <b>' + esc(party(st.party).name) + '</b> را آماده کردم؛ تأیید و ذخیره کن.');
+    const pt = st.pay; botClose(() => { cashForm(K, st.party); const a = $('#cam'); if (a) { a.value = String(st.amt); moneyFmt(a); } if (pt && pt !== 'cash') { const b = document.querySelector('[data-a="chip"][data-g="cpay"][data-v="' + pt + '"],[data-k="cpay"][data-v="' + pt + '"]'); if (b) b.click(); } }); bot.st = null; return;
+  }
+  if (K === 'expense' || K === 'income') {
+    if (!st.amt) return botSay('مبلغ چقدر است؟');
+    botSay('✅ ' + (K === 'expense' ? 'هزینه' : 'درآمد') + ' <b>' + mu(st.amt) + '</b> را آماده کردم؛ دسته‌بندی را بررسی و ذخیره کن.');
+    botClose(() => { moneyForm(K); const a = $('#mam'); if (a) { a.value = String(st.amt); moneyFmt(a); } const cs = S.cats.filter(c => c.kind === K).find(c => st.txt.includes(bn(c.name))); const sl = $('#mcat'); if (cs && sl) sl.value = cs.id; }); bot.st = null; return;
+  }
+}
+const chipsBot = a => a.length ? '<div class="bch">' + a.map(x => '<button class="chip tap" data-a="bot-q" data-t="' + esc(x) + '">' + esc(x) + '</button>').join('') + '</div>' : '';
+function botHandle(txt) {
+  const q = bn(txt); if (!q) return;
+  botSay(esc(txt), 1);
+  const toks = botTok(txt), f = botFind(toks), nm = botNums(toks, f.items, f.used);
+  const has = re => re.test(q);
+  /* ادامه‌ی گفتگوی نیمه‌کاره */
+  let st = bot.st;
+  if (has(/^(لغو|بیخیال|ولش کن|کنسل|انصراف)$/)) { bot.st = null; return botSay('باشه، لغو شد.'); }
+  /* تشخیص قصد جدید */
+  let k = null; const isQ = has(/(چقدر|چنده|چند)/) && has(/(فروختم|فروش)/);
+  if (isQ) k = null; else if (has(/پیش ?فاکتور/) && has(/(بزن|صادر|بساز|جدید|ثبت)/)) k = 'pre';
+  else if (has(/(پول|وجه|مبلغ)? ?(گرفتم|دریافت|وصول|دریافتی|گرفتیم)/) && !has(/نشون|نمایش|گزارش/)) k = 'receipt';
+  else if (has(/(پول|وجه|مبلغ)? ?(دادم|پرداخت|پرداختم|واریز کردم|دادیم)/) && !has(/نشون|نمایش|گزارش/)) k = 'payment';
+  else if (has(/(خرید(م|یم)?|خریدم|بار گرفتم|از .* گرفتم)/) && !has(/(نشون|نمایش|گزارش|پیشنهاد|لیست)/) ) k = 'buy';
+  else if (has(/(فروختم|فروش|فاکتور)/) && has(/(بزن|ثبت|فروختم|صادر|بساز|جدید)/)) k = 'sale';
+  else if (has(/هزینه/) && has(/(ثبت|بزن|دادم|کردم|جدید)/)) k = 'expense';
+  else if (has(/(درآمد|درامد)/) && has(/(ثبت|بزن|جدید)/)) k = 'income';
+  if (has(/(طرف حساب|مشتری|تامین کننده|تأمین کننده) جدید|(ثبت|اضافه|بساز).{0,12}(طرف حساب|مشتری|تامین کننده)/) && !k) { botSay('فرم طرف‌حساب جدید را باز می‌کنم.'); return botClose(() => A.newparty()); }
+  if (has(/(محصول|کالا) جدید|(اضافه|ثبت|بساز).{0,10}(محصول|کالا)/) && !k && !has(/خریدم|فروختم/)) { botSay('فرم محصول جدید را باز می‌کنم.'); return botClose(() => A.newprod()); }
+  if (has(/حساب بانکی جدید|حساب جدید|کارت جدید/) && !k) { botSay('فرم حساب جدید را باز می‌کنم.'); return botClose(() => A.newacct()); }
+  if (has(/(مرجوعی|برگشت)/) && !has(/نشون|نمایش|گزارش/)) { botSay('مرجوعی را باز می‌کنم.'); return botClose(() => A['x-ret']()); }
+  /* پرسش‌ها */
+  if (has(/(چقدر|چند|مبلغ|میزان).*(فروختم|فروش)|فروش.*(چقدر|چنده)/) && !k) {
+    const d0 = new Date(); d0.setHours(0, 0, 0, 0); const per = has(/امروز/) ? [d0.getTime(), Date.now() + 1] : has(/هفته/) ? [Date.now() - 7 * 864e5, Date.now() + 1] : has(/ماه/) ? [Date.now() - 30 * 864e5, Date.now() + 1] : [d0.getTime(), Date.now() + 1], nmP = has(/امروز/) || !has(/هفته|ماه/) ? 'امروز' : has(/هفته/) ? '۷ روز اخیر' : '۳۰ روز اخیر';
+    const s = L.summary(S, { from: per[0], to: per[1], ledgerId: S.activeLedger }); return botSay('فروش ' + nmP + ': <b>' + mu(s.rev) + '</b> در ' + fa(s.count) + ' فاکتور<br>سود ناخالص: <b>' + mu(s.profit) + '</b>');
+  }
+  if (has(/(مانده|بدهی|طلب|حساب)/) && f.party && has(/(چقدر|چنده|چیه|چند|بگو)/) && !k) {
+    const b = L.partyBal(S, f.party.id), t = balText(b); return botSay('مانده‌ی <b>' + esc(f.party.name) + '</b>: ' + (Math.abs(b) < 1 ? 'تسویه' : mu(Math.abs(b)) + ' ' + (b > 0 ? 'بدهکار (از ما طلب دارید)' : 'بستانکار (به او بدهکارید)')) + chipsBot(['بازش کن']) + '<span hidden id="bpid" data-id="' + f.party.id + '"></span>') || (bot.last = f.party.id);
+  }
+  if (has(/^(بازش کن|باز کن|صفحه اش|صفحه‌اش)$/) && bot.last) { const id = bot.last; return botClose(() => openParty(id)); }
+  if (k) {
+    if (!st || st.k !== k) st = bot.st = { k, party: '', items: [], amt: 0, pay: 'cash', txt: q };
+    st.txt = q;
+  } else if (st && (f.party || f.items.length || nm.amt.length || nm.res.some(r => r.qty || r.price))) { /* پاسخ به سؤال ربات */ }
+  else st = null;
+  if (st) {
+    if (f.party) st.party = f.party.id; else if (f.amb.length) return botSay('چند نفر با این نام هست؛ کدام یک؟' + chipsBot(f.amb.map(p => p.name)));
+    if (f.items.length) f.items.forEach((it, i) => { const r = nm.res[i]; let x = st.items.find(y => y.pid === it.p.id); if (!x) st.items.push(x = { pid: it.p.id, qty: 0, price: 0 }); if (r.qty !== null) x.qty = r.qty; if (r.price !== null) x.price = botCur(toks, r.price); });
+    else if (st.items.length && nm.free.length) { /* فقط عدد گفته شد: برای قلم ناقص */ const x = st.items.find(y => !y.qty) || st.items.find(y => !y.price); if (x) { if (!x.qty) x.qty = nm.free[0].val; else x.price = botCur(toks, nm.free[0].val); } }
+    if (nm.amt.length) st.amt = botCur(toks, nm.amt[0]); else if ((st.k === 'receipt' || st.k === 'payment' || st.k === 'expense' || st.k === 'income') && !st.amt && nm.free.length) st.amt = botCur(toks, nm.free[0].val);
+    if (has(/کارت ?خوان|پوز/)) st.pay = 'pos'; else if (has(/کارت به کارت|حواله|بانکی|شبا|واریز/)) st.pay = 'bank'; else if (has(/نسیه|اعتباری/)) st.pay = 'credit';
+    return botAsk(st);
+  }
+  /* راهبری */
+  const go = has(BGO);
+  for (const [t, re] of BNAV) if (re.test(' ' + q + ' ') && (go || q.split(' ').length <= 3)) { const sec = botNavSection(q); if (!sec || go && has(re) && !/(پیش|چک|گزارش|فاکتور|مسیر|سفارش|کاتالوگ|ویزیتور|شرکا|امروز|آمار)/.test(q)) { botSay('باز شد: ' + { ledger: 'دفتر', inv: 'انبار', acct: 'حساب‌ها', money: 'درآمد و هزینه', more: 'بیشتر' }[t]); return botClose(() => A.tab({ dataset: { id: t } })); } }
+  if (has(/تراکنش/)) { botSay('تراکنش‌ها را باز می‌کنم.'); return botClose(() => { ui.tab = 'ledger'; ui.sub = 'txns'; render(); }); }
+  const sec = botNavSection(q);
+  if (sec) { botSay('باز می‌کنم: <b>' + esc(sec[2]) + '</b>'); return botClose(() => A['go-' + sec[0]]()); }
+  const pt = f.party; if (pt && go) { botSay('پرونده‌ی <b>' + esc(pt.name) + '</b> را باز می‌کنم.'); return botClose(() => openParty(pt.id)); }
+  botSay('متوجه نشدم 🤔 مثال‌ها:<br>• «پیش‌فاکتورها را نشان بده»<br>• «محصول خریدم» یا «فاکتور بزن»<br>• «۵ کیلو ' + esc(((S.products[0] || {}).name) || 'ربوستا') + ' فروختم به ' + esc(((S.parties.find(p => p.ledgerId === S.activeLedger) || {}).name) || 'آقای ایکس') + '»<br>• «از ' + esc(((S.parties.find(p => p.ledgerId === S.activeLedger) || {}).name) || 'آقای ایکس') + ' ۵ میلیون پول گرفتم»<br>• «امروز چقدر فروختم؟»');
+}
+A.bot = () => {
+  const hi = bot.chat.length ? bot.chat.map(botBub).join('') : '';
+  const w = openSheet('<div id="botw"></div><h3 class="st">ربات دستیار</h3><div id="bchat" class="bchat">' + hi + '</div><div class="bch" id="bhint">' +
+    ['پیش‌فاکتورها را نشان بده', 'محصول خریدم', 'فاکتور بزن', 'پول گرفتم', 'امروز چقدر فروختم؟', 'چک‌ها'].map(x => '<button class="chip tap" data-a="bot-q" data-t="' + x + '">' + x + '</button>').join('') + '</div>' +
+    '<div class="bin"><input id="bin" placeholder="دستور را بنویس یا بگو…" autocomplete="off"><button class="tap bmic" data-a="bot-mic" aria-label="میکروفون">' + ico('mic', 22) + '</button><button class="btn tap bsend" data-a="bot-send">' + ico('left', 18) + '</button></div>');
+  w.id = 'botw'; w.querySelector('#botw') && w.querySelector('#botw').remove();
+  if (!bot.chat.length) { bot.chat.push({ me: false, h: 'سلام! هر کاری بخواهی بگو تا انجام بدهم؛ مثلاً «محصول خریدم» یا «پیش‌فاکتورها را نشان بده».' }); $('#bchat', w).innerHTML = botBub(bot.chat[0]); }
+  $('#bchat', w).scrollTop = 1e6; setTimeout(() => { const i = $('#bin', w); if (i) i.focus(); }, 300);
+  const i = $('#bin', w); i.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); A['bot-send'](); } });
+};
+A['bot-send'] = () => { const i = $('#bin'); if (!i) return; const v = i.value; i.value = ''; botHandle(v); };
+A['bot-q'] = t => botHandle(t.dataset.t);
+A['bot-mic'] = t => {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition; if (!SR) return toast('مرورگر شما تشخیص صدا را پشتیبانی نمی‌کند؛ بنویسید.', 1);
+  if (bot.rec) { try { bot.rec.stop(); } catch (e) {} return; }
+  const r = bot.rec = new SR(); r.lang = 'fa-IR'; r.interimResults = true; r.continuous = false; t.classList.add('rec');
+  r.onresult = e => { const s = [...e.results].map(x => x[0].transcript).join(' '); const i = $('#bin'); if (i) i.value = s; if (e.results[e.results.length - 1].isFinal) { r.stop(); } };
+  r.onerror = e => { toast(e.error === 'not-allowed' ? 'اجازه‌ی میکروفون داده نشده.' : 'تشخیص صدا انجام نشد؛ بنویسید.', 1); };
+  r.onend = () => { t.classList.remove('rec'); bot.rec = null; const i = $('#bin'); if (i && i.value.trim()) A['bot-send'](); };
+  try { r.start(); } catch (e) { bot.rec = null; t.classList.remove('rec'); }
+};
 
 })();
 </script>
