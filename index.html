@@ -312,16 +312,40 @@ details.tb summary{cursor:pointer;color:var(--accent);font-size:13px;padding:6px
 .av.img[style*="url('')"]{background-image:none!important}
 .inp{border:1.5px solid var(--line);border-radius:12px;background:var(--bg);padding:8px 10px;color:var(--fg);outline:0}.inp:focus{border-color:var(--accent)}
 .botb{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:var(--brand,#3B2216);color:#fff;flex:none;box-shadow:0 2px 8px rgba(0,0,0,.2)}
-.bchat{max-height:38vh;overflow:auto;display:flex;flex-direction:column;gap:8px;padding:4px 2px 8px}
-.bb{max-width:88%;padding:9px 13px;border-radius:16px;font-size:14px;line-height:1.8}
-.bb.bt{align-self:flex-start;background:var(--card2,rgba(120,90,60,.12))}
-.bb.me{align-self:flex-end;background:var(--brand,#3B2216);color:#fff}
-.bch{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
-.bin{display:flex;gap:8px;align-items:center;margin-top:8px}
-.bin input{flex:1;min-width:0;height:46px;border-radius:14px;border:1px solid rgba(120,90,60,.3);padding:0 14px;background:transparent;color:inherit;font:inherit}
-.bmic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:rgba(120,90,60,.15);color:inherit;flex:none}
-.bmic.rec{background:#d33;color:#fff;animation:bpulse 1s infinite}
-.bsend{width:46px;height:46px;padding:0;display:grid;place-items:center;flex:none}
+#bov{position:fixed;inset:0;z-index:9000;font-family:inherit}
+#bov.hide{display:none}
+#bov .bscrim{position:absolute;inset:0;background:rgba(28,14,6,.78);backdrop-filter:blur(6px);transition:opacity .45s}
+#bov .brob{position:absolute;top:36%;left:50%;width:168px;height:168px;transform:translate(-50%,-50%);transition:all .6s cubic-bezier(.3,1.2,.4,1);animation:rfloat 3s ease-in-out infinite;filter:drop-shadow(0 12px 22px rgba(0,0,0,.45))}
+#bov .bgreet{position:absolute;top:calc(36% + 104px);left:0;right:0;text-align:center;color:#fff;font-size:17px;font-weight:600;line-height:2;padding:0 24px;transition:opacity .35s}
+#bov .bact{position:absolute;bottom:calc(46px + env(safe-area-inset-bottom,0px));left:0;right:0;display:flex;justify-content:center;gap:28px;transition:all .5s}
+#bov .bbt{width:86px;height:86px;border-radius:50%;background:#F3E3CC;color:#3B2216;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:13px;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+#bov .bbt.rec{background:#d33;color:#fff;animation:bpulse 1s infinite}
+#bov .bbar{position:absolute;left:12px;right:12px;bottom:12px;display:none;gap:8px;align-items:center;background:var(--card,#fff);padding:8px;border-radius:18px;box-shadow:0 4px 20px rgba(0,0,0,.35)}
+#bov.chat .bbar{display:flex}
+#bov .bbar input{flex:1;min-width:0;height:46px;border:0;outline:0;background:transparent;color:var(--text,#222);font:inherit;font-size:16px;padding:0 10px}
+#bov .bsend{width:46px;height:46px;border-radius:14px;background:var(--brand,#3B2216);color:#fff;display:grid;place-items:center;flex:none}
+#bov .bx{position:absolute;top:calc(16px + env(safe-area-inset-top,0px));right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.18);color:#fff;display:grid;place-items:center}
+#bst{position:absolute;left:84px;bottom:calc(128px + env(safe-area-inset-bottom,0px));max-width:62%;background:#3B2216;color:#fff;padding:8px 14px;border-radius:14px;font-size:13px;opacity:0;transform:translateY(6px);transition:all .3s;pointer-events:none}
+#bst.on{opacity:1;transform:none}
+/* حالت کار: شفاف، ربات کوچک کنار صفحه */
+#bov.work,#bov.chat.work{pointer-events:none}
+#bov.work .bscrim{opacity:0;pointer-events:none}
+#bov.work .bgreet{opacity:0}
+#bov.work .brob{top:calc(100% - 214px);left:36px;width:62px;height:62px;pointer-events:auto;animation:none}
+#bov.work .bact{flex-direction:column;align-items:flex-start;left:8px;right:auto;bottom:calc(76px + env(safe-area-inset-bottom,0px));gap:8px}
+#bov.work .bbt{width:46px;height:46px;pointer-events:auto}
+#bov.work .bbt span{display:none}
+#bov.work .bx{pointer-events:auto;top:auto;bottom:calc(76px + env(safe-area-inset-bottom,0px));right:auto;left:8px;display:none}
+#bov.work.chat .bbar{pointer-events:auto}
+#bov.listen .brob{animation:rlisten .8s ease-in-out infinite}
+.reye{animation:rblink 4s infinite;transform-origin:center;transform-box:fill-box}
+.rant{animation:bpulse 1.4s infinite}
+#bcur{position:fixed;left:0;top:0;z-index:9500;pointer-events:none;opacity:0;transition:transform .42s cubic-bezier(.4,.1,.2,1),opacity .3s;filter:drop-shadow(0 3px 5px rgba(0,0,0,.4))}
+#bcur.tp svg{transform:scale(.8) translateY(4px)}
+#bcur svg{transition:transform .14s}
+@keyframes rfloat{50%{transform:translate(-50%,-54%)}}
+@keyframes rlisten{50%{transform:translate(-50%,-50%) scale(1.08)}}
+@keyframes rblink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
 @keyframes bpulse{50%{opacity:.55}}
 
 </style>
@@ -4863,7 +4887,7 @@ A['sp-save'] = t => { S.settings.spTarget = Math.max(1, +smsEn($('#sp-t').value)
 const BW = { صفر: 0, یک: 1, دو: 2, سه: 3, چهار: 4, پنج: 5, شش: 6, هفت: 7, هشت: 8, نه: 9, ده: 10, یازده: 11, دوازده: 12, سیزده: 13, چهارده: 14, پانزده: 15, شانزده: 16, هفده: 17, هجده: 18, نوزده: 19, بیست: 20, سی: 30, چهل: 40, پنجاه: 50, شصت: 60, هفتاد: 70, هشتاد: 80, نود: 90, صد: 100, دویست: 200, سیصد: 300, چهارصد: 400, پانصد: 500, ششصد: 600, هفتصد: 700, هشتصد: 800, نهصد: 900, نیم: 0.5 };
 const BM = { هزار: 1e3, میلیون: 1e6, ملیون: 1e6, میلیارد: 1e9 };
 const BUNIT = /^(کیلو|کیلوگرم|کیلویی|گرم|عدد|کارتن|بسته|بسته‌ی|بار|پک|بیست)$/;
-const bn = t => moN(t).replace(/[؟?!.،,:؛]/g, ' ').replace(/\s+/g, ' ').trim();
+const bn = t => moN(t).replace(/(\d)[\/,٬،](?=\d{3}(?!\d))/g, '$1').replace(/(\d)[\/,٬،](?=\d{3}(?!\d))/g, '$1').replace(/[؟?!.،,:؛]/g, ' ').replace(/\s+/g, ' ').trim();
 /* متن → توکن‌ها: {w:'کلمه'} یا {n:عدد} */
 function botTok(txt) {
   const raw = bn(txt).split(' ').filter(Boolean), out = []; let i = 0;
@@ -4929,10 +4953,6 @@ function botNums(toks, items, used) {
 function botCur(toks, v) { const t = toks.map(x => x.w).join(' '); if (/تومن|تومان/.test(t) && cur() === 'ریال') return v * 10; if (/ریال/.test(t) && cur() !== 'ریال') return v / 10; return v; }
 const BNAV = [['ledger', /(^| )(دفتر|صفحه اصلی|خانه)( |$)/], ['inv', /(^| )(انبار محصولات|انبار|موجودی)( |$)/], ['acct', /(^| )(حساب ها|حسابها|حساب‌ها|کارت ها|نقدینگی)( |$)/], ['money', /(^| )(درآمد و هزینه|درآمد هزینه|هزینه ها|درامد)( |$)/], ['more', /(^| )(بیشتر|منو|منوی بیشتر)( |$)/]];
 const BGO = /(برو|ببر|باز کن|بازکن|نشون|نشان|نمایش|بیار|ببین|برم|میخوام ببینم|می خوام ببینم|می‌خوام ببینم|بزن روی|برو تو|برو توی|برو به|ورود به)/;
-const bot = { chat: [], st: null, rec: null };
-function botSay(h, me) { bot.chat.push({ me: !!me, h }); const c = $('#bchat'); if (c) { c.insertAdjacentHTML('beforeend', botBub(bot.chat[bot.chat.length - 1])); c.scrollTop = c.scrollHeight; } }
-const botBub = m => '<div class="bb ' + (m.me ? 'me' : 'bt') + '">' + m.h + '</div>';
-function botClose(fn) { const w = $('#botw'); if (w) closeSheet(w); setTimeout(fn, 230); }
 function botNavSection(q) {
   const items = moItems(), toks = q.split(' ').filter(x => x.length > 1 && !BGO.test(x) && !/^(رو|را|به|از|توی|تو|لطفا|منو|من|ها|های|لیست|صفحه|بخش)$/.test(x));
   if (!toks.length) return null;
@@ -4941,107 +4961,201 @@ function botNavSection(q) {
   for (const i of items) { const h = hay(i), t = title(i); let sc = 0; for (const w of toks) { const w2 = w.replace(/ها$/, '').replace(/ی$/, ''); if (t.includes(w) || (w2.length > 2 && t.includes(w2))) sc += 3; else if (h.includes(w) || (w2.length > 2 && h.includes(w2))) sc += 1; } if (sc > bs) { bs = sc; best = i; } }
   return bs >= 2 ? best : null;
 }
-function botOpenInv(kind, st, pro) {
-  const items = st.items.map(x => ({ pid: x.pid, qty: x.qty || 1, price: x.price || (kind === 'sale' ? lastSalePrice(x.pid, st.party) : 0) || 0, partners: [] }));
-  botClose(() => { if (pro) openInvoice('sale', { proforma: true, pre: { partyId: st.party || '', items } }); else if (items.length || st.party) openInvoice(kind, { pre: { partyId: st.party || '', items, pay: st.pay } }); else openInvoice(kind); });
+/* ===== موتور اجرا: ربات روی خودِ صفحه‌ها کار می‌کند (دست مجازی) ===== */
+const rb = { ex: null, busy: false, rec: null, mode: '' };
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+function rtop() { const sh = document.querySelectorAll('#sheets>.sw'); if (sh.length) return sh[sh.length - 1]; const pg = document.querySelectorAll('#pages>*'); return pg.length ? pg[pg.length - 1] : document.body; }
+async function wf(sel, ms) { const t0 = Date.now(); while (Date.now() - t0 < (ms || 2500)) { const r = rtop(), e = typeof sel === 'function' ? sel(r) : r.querySelector(sel); if (e && e.getClientRects().length) return e; await sleep(60); } return null; }
+const btnTxt = (re, r) => [...(r || rtop()).querySelectorAll('button')].find(b => b.getClientRects().length && re.test(b.innerText));
+function rcur() { let c = $('#bcur'); if (!c) { c = document.createElement('div'); c.id = 'bcur'; c.innerHTML = '<svg viewBox="0 0 24 24" width="34" height="34"><path d="M8 3.5a1.6 1.6 0 013.2 0V10l1.4-.5a1.5 1.5 0 011.9.9l.4-.1a1.5 1.5 0 011.9 1l.3-.1a1.5 1.5 0 011.9 1.2l.4 4.2c.2 2.4-1.7 4.5-4.1 4.5h-2.6a4.5 4.5 0 01-3.6-1.8L5 15.6a1.5 1.5 0 012.3-1.8L8 14.5z" fill="#fff" stroke="#3B2216" stroke-width="1.3" stroke-linejoin="round"/></svg>'; document.body.appendChild(c); } return c; }
+async function rmv(el) { try { el.scrollIntoView({ block: 'center', behavior: 'instant' }); } catch (e) {} await sleep(70); const r = el.getBoundingClientRect(), c = rcur(); c.style.opacity = 1; c.style.transform = 'translate(' + (r.left + r.width / 2 - 8) + 'px,' + (r.top + r.height / 2 - 4) + 'px)'; await sleep(430); }
+async function rtap(el) { if (!el) return false; await rmv(el); const c = rcur(); c.classList.add('tp'); await sleep(150); c.classList.remove('tp'); el.click(); await sleep(300); return true; }
+async function rtype(el, v) { if (!el) return false; await rmv(el); el.focus({ preventScroll: true }); el.value = ''; const s = String(v), ev = () => el.dispatchEvent(new Event('input', { bubbles: true })); if (s.length <= 18) { for (const ch of s) { el.value += ch; ev(); await sleep(26); } } else { el.value = s; ev(); } el.dispatchEvent(new Event('change', { bubbles: true })); el.blur && el.blur(); await sleep(130); return true; }
+async function rsel(el, re) { if (!el) return false; await rmv(el); const o = [...el.options].find(x => re.test(x.text)); if (!o) return false; el.value = o.value; el.dispatchEvent(new Event('change', { bubbles: true })); await sleep(200); return true; }
+async function rchip(re) { const b = [...rtop().querySelectorAll('button.chip, .chip')].find(x => x.getClientRects().length && re.test(x.innerText)); return rtap(b); }
+function rstat(t) { const e = $('#bst'); if (!e) return; e.textContent = t || ''; e.classList.toggle('on', !!t); clearTimeout(rstat.t); if (t) rstat.t = setTimeout(() => e.classList.remove('on'), 4200); }
+function scr() { const r = rtop(), h = s => !!r.querySelector(s); return h('#iq') ? 'item' : h('#pq') ? 'ppick' : h('#gq') ? 'gpick' : h('#pn') ? 'party' : h('#gn') ? 'prod' : h('[data-a=inv-save]') ? 'inv' : h('#cam') ? 'cash' : h('#mam') ? 'money' : h('[data-a=fab]') && r === document.body ? 'home' : r.id === 'botw' ? 'home' : (document.querySelector('#pages>*') || document.querySelector('#sheets>.sw')) ? 'other' : 'home'; }
+async function closeAll() { for (let i = 0; i < 8; i++) { const sh = document.querySelectorAll('#sheets>.sw'); if (sh.length) { closeSheet(sh[sh.length - 1]); await sleep(260); continue; } const pc = document.querySelector('#pages [data-a=pclose]'); if (!pc) break; const all = document.querySelectorAll('#pages [data-a=pclose]'); all[all.length - 1].click(); await sleep(300); } }
+async function closeTop() { const sh = document.querySelectorAll('#sheets>.sw'); if (sh.length) { await rtap(sh[sh.length - 1].querySelector('[data-a=sclose]') || sh[sh.length - 1]); } else { const all = document.querySelectorAll('#pages [data-a=pclose]'); if (all.length) await rtap(all[all.length - 1]); } }
+/* ---- تطبیق نام با داده‌ها ---- */
+const HON = /^(اقای|آقای|خانم|شرکت|فروشگاه|اقا|آقا|دکتر|مهندس|حاج|حاجی|پخش)$/;
+function nameMatch(spoken, list, strip) {
+  const ws = bn(spoken).split(' ').filter(x => x.length > 1 && !(strip && HON.test(x))); if (!ws.length) return null;
+  let best = null, bs = 0;
+  for (const it of list) { const nw = bn(it.name).split(' ').filter(x => x.length > 1 && !(strip && HON.test(x))); if (!nw.length) continue;
+    const inN = ws.filter(w => nw.includes(w)).length, cov = inN / ws.length, rev = nw.filter(w => ws.includes(w)).length / nw.length;
+    const sc = cov === 1 ? 2 + rev : (rev === 1 && nw.length >= 2 ? 1.5 : 0); if (sc > bs || (sc === bs && best && sc > 0 && it.name.length < best.name.length)) { bs = sc; best = it; } }
+  return bs >= 1.5 ? best : null;
 }
-function botAsk(st) {
-  const K = st.k, kl = { sale: 'فاکتور فروش', buy: 'فاکتور خرید', pre: 'پیش‌فاکتور' }[K];
-  if (K === 'sale' || K === 'buy' || K === 'pre') {
-    if (!st.party) return botSay((K === 'buy' ? 'تأمین‌کننده کیست؟' : 'مشتری (طرف‌حساب) کیست؟') + chipsBot(S.parties.filter(p => p.ledgerId === S.activeLedger).slice(0, 6).map(p => p.name)));
-    if (!st.items.length) return botSay('نام محصول و مقدارش را بگو؛ مثلاً «۲۰ کیلو ' + esc(((S.products[0] || {}).name) || 'ربوستا') + '».' + chipsBot(S.products.slice(0, 6).map(p => p.name)));
-    const bad = st.items.find(x => !x.qty); if (bad) return botSay('مقدار «' + esc(prod(bad.pid).name) + '» چقدر است؟');
-    const nop = st.items.find(x => !x.price && !(K !== 'buy' && lastSalePrice(x.pid, st.party))); if (nop) return botSay('قیمت هر واحد «' + esc(prod(nop.pid).name) + '» چقدر است؟');
-    const sm = st.items.map(x => esc(prod(x.pid).name) + ' ' + qf(x.qty)).join('، ');
-    botSay('✅ ' + kl + ' برای <b>' + esc(party(st.party).name) + '</b>: ' + sm + '<br>فرم را پر کردم و باز می‌کنم؛ بررسی و ذخیره کن.');
-    st.done = 1; botOpenInv(K === 'pre' ? 'sale' : K, st, K === 'pre'); bot.st = null; return;
-  }
-  if (K === 'receipt' || K === 'payment') {
-    if (!st.party) return botSay('با چه کسی؟ نام طرف‌حساب را بگو.' + chipsBot(S.parties.filter(p => p.ledgerId === S.activeLedger).slice(0, 6).map(p => p.name)));
-    if (!st.amt) return botSay('مبلغ چقدر است؟');
-    botSay('✅ ' + (K === 'receipt' ? 'دریافت' : 'پرداخت') + ' <b>' + mu(st.amt) + '</b> با <b>' + esc(party(st.party).name) + '</b> را آماده کردم؛ تأیید و ذخیره کن.');
-    const pt = st.pay; botClose(() => { cashForm(K, st.party); const a = $('#cam'); if (a) { a.value = String(st.amt); moneyFmt(a); } if (pt && pt !== 'cash') { const b = document.querySelector('[data-a="chip"][data-g="cpay"][data-v="' + pt + '"],[data-k="cpay"][data-v="' + pt + '"]'); if (b) b.click(); } }); bot.st = null; return;
-  }
-  if (K === 'expense' || K === 'income') {
-    if (!st.amt) return botSay('مبلغ چقدر است؟');
-    botSay('✅ ' + (K === 'expense' ? 'هزینه' : 'درآمد') + ' <b>' + mu(st.amt) + '</b> را آماده کردم؛ دسته‌بندی را بررسی و ذخیره کن.');
-    botClose(() => { moneyForm(K); const a = $('#mam'); if (a) { a.value = String(st.amt); moneyFmt(a); } const cs = S.cats.filter(c => c.kind === K).find(c => st.txt.includes(bn(c.name))); const sl = $('#mcat'); if (cs && sl) sl.value = cs.id; }); bot.st = null; return;
-  }
+const curParties = () => S.parties.filter(p => p.ledgerId === S.activeLedger);
+async function doParty(name) {
+  const o = await wf('[data-a=inv-party],[data-a=cs-party]'); if (!o) return false;
+  const hit = nameMatch(name, curParties(), 1);
+  await rtap(o); const pq = await wf('#pq'); if (!pq) return false;
+  if (hit) { await rtype(pq, hit.name); const row = await wf(r => r.querySelector('[data-a=pp-pick][data-id="' + hit.id + '"]')); await rtap(row); return hit.name; }
+  await rtap(await wf('[data-a=pp-new]')); const pn = await wf('#pn'); if (!pn) return false;
+  await rtype(pn, name.trim()); await rtap(await wf('[data-a=p-save]')); await sleep(300); rstat('طرف‌حساب جدید ساخته شد'); return name.trim();
 }
-const chipsBot = a => a.length ? '<div class="bch">' + a.map(x => '<button class="chip tap" data-a="bot-q" data-t="' + esc(x) + '">' + esc(x) + '</button>').join('') + '</div>' : '';
-function botHandle(txt) {
-  const q = bn(txt); if (!q) return;
-  botSay(esc(txt), 1);
-  const toks = botTok(txt), f = botFind(toks), nm = botNums(toks, f.items, f.used);
-  const has = re => re.test(q);
-  /* ادامه‌ی گفتگوی نیمه‌کاره */
-  let st = bot.st;
-  if (has(/^(لغو|بیخیال|ولش کن|کنسل|انصراف)$/)) { bot.st = null; return botSay('باشه، لغو شد.'); }
-  /* تشخیص قصد جدید */
-  let k = null; const isQ = has(/(چقدر|چنده|چند)/) && has(/(فروختم|فروش)/);
-  if (isQ) k = null; else if (has(/پیش ?فاکتور/) && has(/(بزن|صادر|بساز|جدید|ثبت)/)) k = 'pre';
-  else if (has(/(پول|وجه|مبلغ)? ?(گرفتم|دریافت|وصول|دریافتی|گرفتیم)/) && !has(/نشون|نمایش|گزارش/)) k = 'receipt';
-  else if (has(/(پول|وجه|مبلغ)? ?(دادم|پرداخت|پرداختم|واریز کردم|دادیم)/) && !has(/نشون|نمایش|گزارش/)) k = 'payment';
-  else if (has(/(خرید(م|یم)?|خریدم|بار گرفتم|از .* گرفتم)/) && !has(/(نشون|نمایش|گزارش|پیشنهاد|لیست)/) ) k = 'buy';
-  else if (has(/(فروختم|فروش|فاکتور)/) && has(/(بزن|ثبت|فروختم|صادر|بساز|جدید)/)) k = 'sale';
-  else if (has(/هزینه/) && has(/(ثبت|بزن|دادم|کردم|جدید)/)) k = 'expense';
-  else if (has(/(درآمد|درامد)/) && has(/(ثبت|بزن|جدید)/)) k = 'income';
-  if (has(/(طرف حساب|مشتری|تامین کننده|تأمین کننده) جدید|(ثبت|اضافه|بساز).{0,12}(طرف حساب|مشتری|تامین کننده)/) && !k) { botSay('فرم طرف‌حساب جدید را باز می‌کنم.'); return botClose(() => A.newparty()); }
-  if (has(/(محصول|کالا) جدید|(اضافه|ثبت|بساز).{0,10}(محصول|کالا)/) && !k && !has(/خریدم|فروختم/)) { botSay('فرم محصول جدید را باز می‌کنم.'); return botClose(() => A.newprod()); }
-  if (has(/حساب بانکی جدید|حساب جدید|کارت جدید/) && !k) { botSay('فرم حساب جدید را باز می‌کنم.'); return botClose(() => A.newacct()); }
-  if (has(/(مرجوعی|برگشت)/) && !has(/نشون|نمایش|گزارش/)) { botSay('مرجوعی را باز می‌کنم.'); return botClose(() => A['x-ret']()); }
-  /* پرسش‌ها */
-  if (has(/(چقدر|چند|مبلغ|میزان).*(فروختم|فروش)|فروش.*(چقدر|چنده)/) && !k) {
-    const d0 = new Date(); d0.setHours(0, 0, 0, 0); const per = has(/امروز/) ? [d0.getTime(), Date.now() + 1] : has(/هفته/) ? [Date.now() - 7 * 864e5, Date.now() + 1] : has(/ماه/) ? [Date.now() - 30 * 864e5, Date.now() + 1] : [d0.getTime(), Date.now() + 1], nmP = has(/امروز/) || !has(/هفته|ماه/) ? 'امروز' : has(/هفته/) ? '۷ روز اخیر' : '۳۰ روز اخیر';
-    const s = L.summary(S, { from: per[0], to: per[1], ledgerId: S.activeLedger }); return botSay('فروش ' + nmP + ': <b>' + mu(s.rev) + '</b> در ' + fa(s.count) + ' فاکتور<br>سود ناخالص: <b>' + mu(s.profit) + '</b>');
+function pickUnit(q) { return /کارتن/.test(q) ? 'کارتن' : /کیسه/.test(q) ? 'کیسه' : /(گرم)(?!ی)/.test(q) && !/کیلو/.test(q) ? 'گرم' : /بسته|پک/.test(q) ? 'بسته' : /عدد/.test(q) ? 'عدد' : /لیتر/.test(q) ? 'لیتر' : 'کیلوگرم'; }
+async function doProduct(name, uq) {
+  if (!rtop().querySelector('#iq')) { const add = await wf('[data-a=inv-add]'); if (!add) return false; await rtap(add); await wf('#iq'); }
+  const pb = await wf('[data-a=it-prod]'); if (!pb) return false;
+  const hit = nameMatch(name, S.products, 0);
+  await rtap(pb); const gq = await wf('#gq'); if (!gq) return false;
+  if (hit) { await rtype(gq, hit.name); const row = await wf(r => r.querySelector('[data-a=gp-pick][data-id="' + hit.id + '"]')); await rtap(row); await sleep(200); return hit.name; }
+  await rtap(await wf('[data-a=gp-new]')); const gn = await wf('#gn'); if (!gn) return false;
+  await rtype(gn, name.trim()); await rchip(new RegExp('^' + pickUnit(uq || name))); await rtap(await wf('[data-a=g-save]')); await sleep(300); rstat('محصول جدید ساخته شد'); return name.trim();
+}
+async function fillItem(qty, price, total) {
+  const iq = await wf('#iq'); if (!iq) return false;
+  if (total && qty && !price) price = Math.round(total / qty);
+  if (qty) await rtype(iq, qty);
+  if (price) await rtype(await wf('#ip'), price);
+  const nv = id => parseFloat(moN(($(id, rtop()) || {}).value || '').replace(/[^\d.]/g, '')), q_ = nv('#iq'), p_ = nv('#ip');
+  if (q_ > 0 && p_ > 0) { await rtap(await wf('[data-a=it-ok]')); rb.ex = 'product'; rstat('قلم اضافه شد؛ محصول بعدی یا «ثبت کن»'); return true; }
+  rb.ex = q_ > 0 ? 'price' : 'qty'; return true;
+}
+async function openForm(k) {
+  await closeAll(); const home = $('[data-a=tab][data-id=ledger]'); if (home && !home.classList.contains('on')) await rtap(home);
+  const fab = await wf('[data-a=fab]', 1500); await rtap(fab);
+  const act = { sale: 'x-sale', buy: 'x-buy', receipt: 'x-receipt', payment: 'x-payment', expense: 'x-expense', income: 'x-income', ret: 'x-ret' }[k];
+  if (k === 'pre') { await rtap(await wf('[data-a=x-sale]')); await sleep(300); const b = await wf(r => btnTxt(/پیش.?فاکتور/, r)); if (b) await rtap(b); return; }
+  await rtap(await wf('[data-a=' + act + ']')); await sleep(250);
+}
+async function openSection(sec) { await closeAll(); await rtap($('[data-a=tab][data-id=more]')); const r = await wf('[data-a="go-' + sec[0] + '"]'); if (r) await rtap(r); else A['go-' + sec[0]](); }
+/* ---- مغز: متن → اقدام، آگاه از صفحه‌ی فعلی ---- */
+const RPAY = [[/کارت ?خوان|پوز/, /کارتخوان/], [/کارت به کارت|حواله|بانکی|شبا|واریز/, /(به حساب|کارت.?به.?کارت|حواله)/], [/نسیه|اعتباری|قسطی/, /نسیه/], [/(^| )نقد(ی)?( |$)|نقدا|پول نقد/, /^نقدی/]];
+function numAfter(toks, re) { for (let i = 0; i < toks.length; i++) if (toks[i].w && re.test(toks[i].w)) for (let j = i + 1; j < Math.min(toks.length, i + 4); j++) if (toks[j].n !== undefined) return toks[j].n; return null; }
+const firstNum = toks => { const t = toks.find(x => x.n !== undefined); return t ? t.n : null; };
+const LBL = { party: /^(?:تامین ?کننده|تأمین ?کننده|تامین|مشتری|طرف ?حساب|خریدار|فروشنده)(?:\s*(?:م|ام|ـم))?\s*(?:رو|را|اینه|هست|:|می ?شه|بنویس|بزن|ثبت کن|انتخاب کن)?\s*(.*)$/, prod: /^(?:نام |اسم |عنوان )?(?:محصول|کالا|جنس)(?:\s*(?:م|ام))?\s*(?:رو|را|اینه|هست|:|بنویس|بزن|ثبت کن)?\s*(.*)$/ };
+async function act(txt) {
+  const q = bn(txt), toks = botTok(txt), sc = scr(), has = re => re.test(q), forms = ['inv', 'cash', 'money', 'party', 'prod', 'item'];
+  if (!q) return;
+  if (has(/^(لغو|بیخیال|ولش کن|کنسل|انصراف|ببند|بستن|ببندش|برگرد|بازگشت|بسته)$/)) { rb.ex = null; return closeTop(); }
+  if (sc === 'item' && has(/^(افزودن|اضافه کن|اضافه|تایید|تأیید|ثبت|اوکی)( کن| بزن)?$/)) { rb.ex = 'product'; return rtap(await wf('[data-a=it-ok]')); }
+  if (forms.includes(sc) && sc !== 'item' && has(/^(ثبت|ذخیره|تمام|تایید|تأیید|اوکی|ok|تموم|همین|بزن)( ?(کن|بزن|شد|ش کن|ش))?$|^(ثبتش|ذخیرش|تمومش) کن$/)) {
+    const b = await wf('[data-a=inv-save],[data-a=cs-save],[data-a=ms-save],[data-a=p-save],[data-a=g-save]'); rb.ex = null; return rtap(b);
   }
-  if (has(/(مانده|بدهی|طلب|حساب)/) && f.party && has(/(چقدر|چنده|چیه|چند|بگو)/) && !k) {
-    const b = L.partyBal(S, f.party.id), t = balText(b); return botSay('مانده‌ی <b>' + esc(f.party.name) + '</b>: ' + (Math.abs(b) < 1 ? 'تسویه' : mu(Math.abs(b)) + ' ' + (b > 0 ? 'بدهکار (از ما طلب دارید)' : 'بستانکار (به او بدهکارید)')) + chipsBot(['بازش کن']) + '<span hidden id="bpid" data-id="' + f.party.id + '"></span>') || (bot.last = f.party.id);
-  }
-  if (has(/^(بازش کن|باز کن|صفحه اش|صفحه‌اش)$/) && bot.last) { const id = bot.last; return botClose(() => openParty(id)); }
+  /* --- قصد جدید: باز کردن فرم‌ها --- */
+  let k = null; const isQ = has(/(چقدر|چنده|چند)/) && has(/(فروختم|فروش|بدهکار|مانده)/);
+  if (!isQ) { if (has(/پیش ?فاکتور/) && has(/(بزن|صادر|بساز|جدید|ثبت|بکن)/)) k = 'pre';
+    else if (has(/(گرفتم|دریافت|وصول|گرفتیم)/) && !has(/نشون|نمایش|گزارش/)) k = 'receipt';
+    else if (has(/(دادم|پرداخت|پرداختم|واریز کردم|دادیم)/) && !has(/نشون|نمایش|گزارش/) && !has(/خرید/)) k = 'payment';
+    else if (has(/(خریدم|خریدیم|خرید بزن|فاکتور خرید|ثبت خرید|بار گرفتم|خرید جدید|محصول خریدم|خرید)/) && !has(/(نشون|نمایش|گزارش|پیشنهاد|لیست|ببین)/) && sc !== 'item' && !(sc === 'inv' && !has(/(جدید|بزن|بکن)/))) k = 'buy';
+    else if (has(/(فروختم|فروختیم|فاکتور فروش|ثبت فروش|فروش جدید|فاکتور بزن|فاکتور بساز|فاکتور جدید)/) && !has(/(نشون|نمایش|گزارش|لیست|ببین)/)) k = 'sale';
+    else if (has(/هزینه/) && has(/(ثبت|بزن|دادم|کردم|جدید|بکن)/) && !has(/نشون|نمایش|گزارش/)) k = 'expense';
+    else if (has(/(درآمد|درامد)/) && has(/(ثبت|بزن|جدید|بکن)/)) k = 'income';
+    else if (has(/(مرجوعی|برگشت)/) && !has(/نشون|نمایش|گزارش/)) k = 'ret'; }
   if (k) {
-    if (!st || st.k !== k) st = bot.st = { k, party: '', items: [], amt: 0, pay: 'cash', txt: q };
-    st.txt = q;
-  } else if (st && (f.party || f.items.length || nm.amt.length || nm.res.some(r => r.qty || r.price))) { /* پاسخ به سؤال ربات */ }
-  else st = null;
-  if (st) {
-    if (f.party) st.party = f.party.id; else if (f.amb.length) return botSay('چند نفر با این نام هست؛ کدام یک؟' + chipsBot(f.amb.map(p => p.name)));
-    if (f.items.length) f.items.forEach((it, i) => { const r = nm.res[i]; let x = st.items.find(y => y.pid === it.p.id); if (!x) st.items.push(x = { pid: it.p.id, qty: 0, price: 0 }); if (r.qty !== null) x.qty = r.qty; if (r.price !== null) x.price = botCur(toks, r.price); });
-    else if (st.items.length && nm.free.length) { /* فقط عدد گفته شد: برای قلم ناقص */ const x = st.items.find(y => !y.qty) || st.items.find(y => !y.price); if (x) { if (!x.qty) x.qty = nm.free[0].val; else x.price = botCur(toks, nm.free[0].val); } }
-    if (nm.amt.length) st.amt = botCur(toks, nm.amt[0]); else if ((st.k === 'receipt' || st.k === 'payment' || st.k === 'expense' || st.k === 'income') && !st.amt && nm.free.length) st.amt = botCur(toks, nm.free[0].val);
-    if (has(/کارت ?خوان|پوز/)) st.pay = 'pos'; else if (has(/کارت به کارت|حواله|بانکی|شبا|واریز/)) st.pay = 'bank'; else if (has(/نسیه|اعتباری/)) st.pay = 'credit';
-    return botAsk(st);
+    const f = botFind(toks), nm = botNums(toks, f.items, f.used); rb.ex = null;
+    await openForm(k); if (k === 'ret') return;
+    const amt = (nm.amt.length ? nm.amt[0] : null); const amtC = amt !== null ? botCur(toks, amt) : null;
+    if (k === 'receipt' || k === 'payment') {
+      if (f.party) await doParty(f.party.name); else rb.ex = 'party';
+      if (amtC) { await rtype(await wf('#cam'), amtC); } else if (!rb.ex) rb.ex = 'amt'; if (has(/کارت ?خوان|پوز/)) await rchip(/کارتخوان/); else if (has(/کارت به کارت|حواله/)) await rchip(/(کارت|حواله)/);
+      if (rb.ex === 'party' && !f.party) rstat('طرف‌حساب؟'); return;
+    }
+    if (k === 'expense' || k === 'income') { if (amtC) await rtype(await wf('#mam'), amtC); else rb.ex = 'amt'; const cs = S.cats.filter(c => c.kind === k).find(c => q.includes(bn(c.name))); if (cs) await rsel(await wf('#mcat'), new RegExp(cs.name)); return; }
+    /* خرید/فروش/پیش‌فاکتور */
+    if (f.party) await doParty(f.party.name); else { rb.ex = 'party'; rstat(k === 'buy' ? 'تأمین‌کننده؟' : 'مشتری؟'); }
+    if (f.party && f.items.length) { for (let i = 0; i < f.items.length; i++) { const it = f.items[i], r = nm.res[i]; await doProduct(it.p.name); await fillItem(r.qty, r.price !== null ? botCur(toks, r.price) : (k !== 'buy' ? lastSalePrice(it.p.id, f.party.id) : 0)); } }
+    else if (f.party) { rb.ex = 'product'; rstat('محصول؟'); }
+    return;
   }
-  /* راهبری */
+  /* --- گفتگو در همان صفحه‌ای که باز است --- */
+  if (isQ) return answer(q, toks);
+  /* ناوبری */
   const go = has(BGO);
-  for (const [t, re] of BNAV) if (re.test(' ' + q + ' ') && (go || q.split(' ').length <= 3)) { const sec = botNavSection(q); if (!sec || go && has(re) && !/(پیش|چک|گزارش|فاکتور|مسیر|سفارش|کاتالوگ|ویزیتور|شرکا|امروز|آمار)/.test(q)) { botSay('باز شد: ' + { ledger: 'دفتر', inv: 'انبار', acct: 'حساب‌ها', money: 'درآمد و هزینه', more: 'بیشتر' }[t]); return botClose(() => A.tab({ dataset: { id: t } })); } }
-  if (has(/تراکنش/)) { botSay('تراکنش‌ها را باز می‌کنم.'); return botClose(() => { ui.tab = 'ledger'; ui.sub = 'txns'; render(); }); }
-  const sec = botNavSection(q);
-  if (sec) { botSay('باز می‌کنم: <b>' + esc(sec[2]) + '</b>'); return botClose(() => A['go-' + sec[0]]()); }
-  const pt = f.party; if (pt && go) { botSay('پرونده‌ی <b>' + esc(pt.name) + '</b> را باز می‌کنم.'); return botClose(() => openParty(pt.id)); }
-  botSay('متوجه نشدم 🤔 مثال‌ها:<br>• «پیش‌فاکتورها را نشان بده»<br>• «محصول خریدم» یا «فاکتور بزن»<br>• «۵ کیلو ' + esc(((S.products[0] || {}).name) || 'ربوستا') + ' فروختم به ' + esc(((S.parties.find(p => p.ledgerId === S.activeLedger) || {}).name) || 'آقای ایکس') + '»<br>• «از ' + esc(((S.parties.find(p => p.ledgerId === S.activeLedger) || {}).name) || 'آقای ایکس') + ' ۵ میلیون پول گرفتم»<br>• «امروز چقدر فروختم؟»');
+  if (go || !forms.includes(sc)) {
+    if (has(/تراکنش/)) { await closeAll(); await rtap($('[data-a=tab][data-id=ledger]')); ui.tab = 'ledger'; ui.sub = 'txns'; render(); return; }
+    for (const [t, re] of BNAV) if (re.test(' ' + q + ' ') && !/(پیش|چک|گزارش|فاکتور|مسیر|سفارش|کاتالوگ|ویزیتور|شرکا|امروز|آمار)/.test(q)) { await closeAll(); return rtap($('[data-a=tab][data-id=' + t + ']')); }
+    const sec = botNavSection(q); if (sec) return openSection(sec);
+    const f0 = botFind(toks); if (f0.party && go) { await closeAll(); return openParty(f0.party.id); }
+    if (has(/(طرف حساب|مشتری|تامین کننده|تأمین کننده) جدید|(ثبت|اضافه|بساز).{0,12}(طرف حساب|مشتری|تامین کننده)/)) { await closeAll(); await rtap(await wf('[data-a=newparty]')) || A.newparty(); rb.ex = 'pname'; return; }
+    if (has(/(محصول|کالا) جدید|(اضافه|ثبت|بساز).{0,10}(محصول|کالا)/) && !forms.includes(sc)) { await closeAll(); A.newprod(); await sleep(350); rb.ex = 'gname'; return; }
+    if (has(/حساب بانکی جدید|حساب جدید|کارت جدید/)) { await closeAll(); A.newacct(); return; }
+  }
+  /* پر کردن فیلدهای صفحه‌ی باز */
+  if (sc === 'inv' || sc === 'cash' || sc === 'ppick' || sc === 'item' || sc === 'money' || sc === 'party' || sc === 'prod') return fillScreen(txt, q, toks, sc);
+  rstat('متوجه نشدم؛ ساده‌تر بگو');
 }
-A.bot = () => {
-  const hi = bot.chat.length ? bot.chat.map(botBub).join('') : '';
-  const w = openSheet('<div id="botw"></div><h3 class="st">ربات دستیار</h3><div id="bchat" class="bchat">' + hi + '</div><div class="bch" id="bhint">' +
-    ['پیش‌فاکتورها را نشان بده', 'محصول خریدم', 'فاکتور بزن', 'پول گرفتم', 'امروز چقدر فروختم؟', 'چک‌ها'].map(x => '<button class="chip tap" data-a="bot-q" data-t="' + x + '">' + x + '</button>').join('') + '</div>' +
-    '<div class="bin"><input id="bin" placeholder="دستور را بنویس یا بگو…" autocomplete="off"><button class="tap bmic" data-a="bot-mic" aria-label="میکروفون">' + ico('mic', 22) + '</button><button class="btn tap bsend" data-a="bot-send">' + ico('left', 18) + '</button></div>');
-  w.id = 'botw'; w.querySelector('#botw') && w.querySelector('#botw').remove();
-  if (!bot.chat.length) { bot.chat.push({ me: false, h: 'سلام! هر کاری بخواهی بگو تا انجام بدهم؛ مثلاً «محصول خریدم» یا «پیش‌فاکتورها را نشان بده».' }); $('#bchat', w).innerHTML = botBub(bot.chat[0]); }
-  $('#bchat', w).scrollTop = 1e6; setTimeout(() => { const i = $('#bin', w); if (i) i.focus(); }, 300);
-  const i = $('#bin', w); i.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); A['bot-send'](); } });
-};
-A['bot-send'] = () => { const i = $('#bin'); if (!i) return; const v = i.value; i.value = ''; botHandle(v); };
-A['bot-q'] = t => botHandle(t.dataset.t);
+async function fillScreen(txt, q, toks, sc) {
+  const has = re => re.test(q); let m;
+  const pay = () => { for (const [re, lb] of RPAY) if (re.test(q)) return lb; return null; };
+  /* ---- صفحه‌ی افزودن قلم ---- */
+  if (sc === 'item') {
+    const total = numAfter(toks, /^(جمع|کل|مجموع)$/), price = numAfter(toks, /^(قیمت|فی|بها|قیمتش|بهاش|قیمتی|خریدم|فروختم)$/), qty = numAfter(toks, /^(تعداد|مقدار|وزن|تعدادش|مقدارش)$/) || (() => { for (let i = 0; i < toks.length - 1; i++) if (toks[i].n !== undefined && toks[i + 1].w && BUNIT.test(toks[i + 1].w) && toks[i + 1].w !== 'کیلویی') return toks[i].n; return null; })();
+    const nameM = (LBL.prod.exec(q) || [])[1];
+    if (price || qty || total) { const ip = (await wf('#ip')), iq = await wf('#iq'); return fillItem(qty, price !== null ? botCur(toks, price) : null, total !== null ? botCur(toks, total) : null); }
+    if (has(/^(\d+(\.\d+)?)$/)) { const n = firstNum(toks), iqv = (rtop().querySelector('#iq') || {}).value; return fillItem(iqv ? null : n, iqv ? botCur(toks, n) : null); }
+    if (nameM && nameM.length > 1 || (rb.ex === 'product' && !/\d+\s*(کیلو|گرم|عدد)\s/.test(q + ' '))) { return doProduct(nameM || q, q).then(() => { rb.ex = 'qty'; rstat('مقدار و قیمت؟'); }); }
+    if (rb.ex === 'qty' || rb.ex === 'price') { const n = firstNum(toks); if (n !== null) return fillItem(rb.ex === 'qty' ? n : null, rb.ex === 'price' ? botCur(toks, n) : null); }
+    return rstat('متوجه نشدم');
+  }
+  /* ---- فرم طرف‌حساب / محصول ---- */
+  if (sc === 'party') {
+    const nm = (/^(?:نام|اسم)\s*(?:طرف ?حساب)?\s*(.+)$/.exec(q) || [])[1], mob = /(?:موبایل|شماره|تلفن|همراه)\D*(0?9\d{9})/.exec(q), ad = /^آدرس\s*(.+)$/.exec(q);
+    if (mob) return rtype(await wf('#pm'), '0' + mob[1].replace(/^0/, '')); if (ad) return rtype(await wf('#pa'), ad[1]);
+    if (nm || rb.ex === 'pname') { rb.ex = null; return rtype(await wf('#pn'), nm || q); } return rtype(await wf('#pn'), q);
+  }
+  if (sc === 'prod') {
+    const un = /(کیلوگرم|کیلو|کارتن|کیسه|بسته|عدد|گرم|لیتر|جعبه)/.exec(q);
+    if (un && has(/^(واحد|یکا)/)) return rchip(new RegExp('^' + (un[1] === 'کیلو' ? 'کیلوگرم' : un[1])));
+    const nm = (/^(?:نام|اسم|عنوان)\s*(?:محصول)?\s*(.+)$/.exec(q) || [])[1]; rb.ex = null; return rtype(await wf('#gn'), nm || q);
+  }
+  /* ---- انتخاب‌گرها (وقتی باز هستند) ---- */
+  if (sc === 'ppick') { const nm = q.replace(LBL.party, '$1') || q; const hit = nameMatch(nm, curParties(), 1), pq = await wf('#pq'); if (hit) { await rtype(pq, hit.name); return rtap(await wf(r => r.querySelector('[data-a=pp-pick][data-id="' + hit.id + '"]'))); } await rtap(await wf('[data-a=pp-new]')); await rtype(await wf('#pn'), nm); return rtap(await wf('[data-a=p-save]')); }
+  /* ---- فاکتور ---- */
+  const root = rtop();
+  if (sc === 'inv' || sc === 'cash' || sc === 'money') {
+    let handled = false;
+    if ((m = LBL.party.exec(q)) && sc !== 'money') { if (m[1].trim()) { await doParty(m[1]); rb.ex = sc === 'cash' ? 'amt' : 'product'; if (sc === 'inv') rstat('محصول؟'); return; } rb.ex = 'party'; return rstat('نام طرف‌حساب؟'); }
+    if (sc === 'inv' && (has(/(محصول|کالا).*(تعریف|اضافه|ثبت|بزن|وارد)/) && !LBL.prod.exec(q)[1].replace(/(تعریف|اضافه|ثبت|بزن|وارد|کن|که|خریدم|فروختم|رو|را|ها|هایی|اتی|ی|م)/g, '').trim() || has(/^اضافه کردن محصول$/))) { await rtap(await wf('[data-a=inv-add]')); rb.ex = 'product'; return rstat('نام محصول؟'); }
+    if (sc === 'inv' && (m = LBL.prod.exec(q)) && m[1].trim().length > 1) { await doProduct(m[1], q); rb.ex = 'qty'; return rstat('مقدار و قیمت؟'); }
+    const amt = numAfter(toks, /^(مبلغ|پول|مقدار|وجه)$/), disc = numAfter(toks, /^(تخفیف)$/), ship = numAfter(toks, /^(کرایه|حمل|باربری)$/);
+    if (has(/توضیح|یادداشت/) && (m = /(?:توضیحات|توضیح|یادداشت)\s*(.+)$/.exec(txt.replace(/[؟?]/g, '')))) { await rtype(await wf('#inote,#cnt'), m[1].trim()); handled = true; }
+    if (disc !== null && sc === 'inv') { if (has(/درصد/)) await rchip(/درصدی/); await rtype(await wf('#idv'), botCur(toks, disc)); handled = true; }
+    if (ship !== null && sc === 'inv') { await rtype(await wf('#ifr'), botCur(toks, ship)); handled = true; }
+    if (has(/مالیات/) && sc === 'inv') { await rtap(await wf('[data-a=inv-tax]')); handled = true; }
+    const pl = pay(); if (pl && (sc === 'inv' || sc === 'cash')) { await rchip(pl); handled = true; }
+    if (sc === 'cash' || sc === 'money') { const a = amt !== null ? amt : (has(/^[\d\s]+(تومان|تومن|ریال|هزار|میلیون)?$/) || rb.ex === 'amt' ? firstNum(toks) : null); if (a !== null) { await rtype(await wf('#cam,#mam'), botCur(toks, a)); handled = true; rb.ex = null; } }
+    if (sc === 'money') { const cs = S.cats.find(c => q.includes(bn(c.name))); if (cs) { await rsel(await wf('#mcat'), new RegExp(cs.name)); handled = true; } }
+    if (!handled && rb.ex === 'party') { await doParty(q); rb.ex = sc === 'cash' ? 'amt' : 'product'; return; }
+    if (!handled && rb.ex === 'product' && sc === 'inv') { await doProduct(q, q); rb.ex = 'qty'; rstat('مقدار و قیمت؟'); return; }
+    if (!handled) rstat('متوجه نشدم؛ ساده‌تر بگو');
+  }
+}
+function answer(q, toks) {
+  const f = botFind(toks);
+  if (/(فروخت|فروش)/.test(q)) { const d0 = new Date(); d0.setHours(0, 0, 0, 0); const per = /هفته/.test(q) ? [Date.now() - 7 * 864e5, 'هفته'] : /ماه/.test(q) ? [Date.now() - 30 * 864e5, 'ماه'] : [d0.getTime(), 'امروز']; const s = L.summary(S, { from: per[0], to: Date.now() + 1, ledgerId: S.activeLedger }); return rstat('فروش ' + per[1] + ': ' + mu(s.rev)); }
+  if (f.party) { const b = L.partyBal(S, f.party.id); return rstat(f.party.name + ': ' + (Math.abs(b) < 1 ? 'تسویه' : mu(Math.abs(b)) + (b > 0 ? ' بدهکار' : ' بستانکار'))); }
+}
+async function rrun(txt) { if (rb.busy) return; rb.busy = true; ovMode('work'); try { await act(txt); } catch (e) { console.error(e); rstat('انجام نشد؛ دوباره بگو'); } finally { rb.busy = false; const c = $('#bcur'); if (c) setTimeout(() => { if (!rb.busy) c.style.opacity = 0; }, 1800); } }
+/* ===== رابط: ربات وسط صفحه، ویس و چت ===== */
+const ROBOT = '<svg viewBox="0 0 120 120" width="100%" height="100%"><defs><linearGradient id="rg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3E3CC"/><stop offset="1" stop-color="#D9B98E"/></linearGradient></defs><line x1="60" y1="10" x2="60" y2="24" stroke="#D9B98E" stroke-width="4" stroke-linecap="round"/><circle cx="60" cy="9" r="5.5" fill="#E8A24A" class="rant"/><rect x="14" y="52" width="9" height="22" rx="4.5" fill="#B88B5E"/><rect x="97" y="52" width="9" height="22" rx="4.5" fill="#B88B5E"/><rect x="22" y="24" width="76" height="68" rx="26" fill="url(#rg)" stroke="#3B2216" stroke-width="3"/><rect x="32" y="38" width="56" height="38" rx="16" fill="#2A160B"/><ellipse class="reye" cx="48" cy="55" rx="6" ry="8" fill="#FFD9A0"/><ellipse class="reye" cx="72" cy="55" rx="6" ry="8" fill="#FFD9A0"/><path d="M50 67q10 8 20 0" stroke="#FFD9A0" stroke-width="3.5" fill="none" stroke-linecap="round"/><rect x="42" y="94" width="36" height="14" rx="7" fill="#B88B5E" stroke="#3B2216" stroke-width="3"/></svg>';
+function ovMode(m) { const o = $('#bov'); if (!o) return; rb.mode = m; o.className = m; if (m !== 'chat') o.classList.remove('chat'); }
+function ovBuild() {
+  if ($('#bov')) return; const o = document.createElement('div'); o.id = 'bov'; o.className = 'hide';
+  o.innerHTML = '<div class="bscrim" data-a="bot-x"></div><div class="brob" data-a="bot">' + ROBOT + '</div><div class="bgreet">سلام من ربات همیار هستم.<br>چطور می‌تونم کمکتون کنم؟</div>' +
+    '<div class="bact"><button class="bbt tap" data-a="bot-mic">' + ico('mic', 26) + '<span>ویس</span></button><button class="bbt tap" data-a="bot-chat">' + ico('edit', 26) + '<span>چت</span></button></div>' +
+    '<div class="bbar"><input id="bin" placeholder="دستور را بنویس…" autocomplete="off" enterkeyhint="send"><button class="bsend tap" data-a="bot-send" aria-label="ارسال">' + ico('left', 20) + '</button></div><button class="bx tap" data-a="bot-x" aria-label="بستن">' + ico('close', 18) + '</button><div id="bst"></div>';
+  document.body.appendChild(o); $('#bin', o).addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); A['bot-send'](); } });
+}
+A.bot = () => { ovBuild(); const o = $('#bov'); rb.ex = rb.ex; o.className = 'open'; };
+A['bot-x'] = () => { const o = $('#bov'); if (o) o.className = 'hide'; if (rb.rec) try { rb.rec.stop(); } catch (e) {} const c = $('#bcur'); if (c) c.style.opacity = 0; };
+A['bot-chat'] = () => { const o = $('#bov'); o.classList.add('chat'); setTimeout(() => $('#bin').focus(), 120); };
+A['bot-send'] = () => { const i = $('#bin'); const v = i.value.trim(); if (!v) return; i.value = ''; i.blur(); $('#bov').classList.remove('chat'); rrun(v); };
 A['bot-mic'] = t => {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition; if (!SR) return toast('مرورگر شما تشخیص صدا را پشتیبانی نمی‌کند؛ بنویسید.', 1);
-  if (bot.rec) { try { bot.rec.stop(); } catch (e) {} return; }
-  const r = bot.rec = new SR(); r.lang = 'fa-IR'; r.interimResults = true; r.continuous = false; t.classList.add('rec');
-  r.onresult = e => { const s = [...e.results].map(x => x[0].transcript).join(' '); const i = $('#bin'); if (i) i.value = s; if (e.results[e.results.length - 1].isFinal) { r.stop(); } };
-  r.onerror = e => { toast(e.error === 'not-allowed' ? 'اجازه‌ی میکروفون داده نشده.' : 'تشخیص صدا انجام نشد؛ بنویسید.', 1); };
-  r.onend = () => { t.classList.remove('rec'); bot.rec = null; const i = $('#bin'); if (i && i.value.trim()) A['bot-send'](); };
-  try { r.start(); } catch (e) { bot.rec = null; t.classList.remove('rec'); }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition; if (!SR) { rstat('تشخیص صدا در این مرورگر نیست؛ از چت استفاده کن'); ovMode('work'); return; }
+  const btn = t.closest('[data-a=bot-mic]') || t; if (rb.rec) { try { rb.rec.stop(); } catch (e) {} return; }
+  const r = rb.rec = new SR(); r.lang = 'fa-IR'; r.interimResults = false; r.continuous = false; let got = '';
+  btn.classList.add('rec'); $('#bov').classList.add('listen');
+  r.onresult = e => { got = [...e.results].map(x => x[0].transcript).join(' '); };
+  r.onerror = e => { rstat(e.error === 'not-allowed' ? 'اجازه‌ی میکروفون داده نشده' : 'صدا شنیده نشد؛ دوباره یا چت'); };
+  r.onend = () => { btn.classList.remove('rec'); $('#bov') && $('#bov').classList.remove('listen'); rb.rec = null; if (got.trim()) rrun(got); };
+  try { r.start(); } catch (e) { rb.rec = null; btn.classList.remove('rec'); }
 };
+try { window.__hesab.rb = rb; window.__hesab.A = A; } catch (e) {}
 
 })();
 </script>
