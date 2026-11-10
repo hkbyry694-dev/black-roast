@@ -333,7 +333,7 @@ details.tb summary{cursor:pointer;color:var(--accent);font-size:13px;padding:6px
 /* ===== چت‌بات: راهنمای من ===== */
 #gpg{position:fixed;inset:0;z-index:9000;display:flex;flex-direction:column;background:color-mix(in srgb,var(--accent) 7%,var(--bg));transform:translateY(100%);transition:transform .3s cubic-bezier(.3,.9,.3,1);overflow:hidden}
 #gpg.in{transform:none}
-.ghead{display:flex;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;background:var(--card);box-shadow:0 2px 14px rgba(0,0,0,.06);flex:none}
+.ghead{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;background:var(--card);box-shadow:0 2px 14px rgba(0,0,0,.06);flex:none}
 .gh-btn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:var(--accent)}
 .gh-mid{display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.3}
 .gh-mid b{font-size:16px;color:var(--fg)}.gh-mid small{color:var(--muted);font-size:12px;display:flex;align-items:center;gap:5px}
@@ -408,6 +408,21 @@ details.tb summary{cursor:pointer;color:var(--accent);font-size:13px;padding:6px
 .gsv{margin-bottom:14px}
 .ghr{display:flex;align-items:center;gap:4px;background:var(--card);border-radius:14px;margin-bottom:8px;padding-left:4px}
 .ghm{flex:1;text-align:right;padding:12px 14px;display:flex;flex-direction:column;gap:2px}.ghm small{color:var(--muted);font-size:12px}
+
+.gh-side{display:flex;gap:2px;align-items:center;justify-content:flex-start}.gh-side.end{justify-content:flex-end}
+.gact.mine{align-self:flex-end}
+.gact button.cok{width:auto;padding:0 10px;gap:5px;display:inline-flex;align-items:center;color:#1f9d4a;font-size:12px;font-weight:700}
+.gx.txt{width:auto;padding:0 10px;font-size:13px;color:var(--red);font-weight:700}
+.gpager{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:14px;color:var(--muted);font-size:13px}
+.gpager button{width:40px;height:40px;border-radius:50%;background:var(--card);display:grid;place-items:center;color:var(--accent);box-shadow:0 1px 8px rgba(0,0,0,.08)}
+.gpager button:first-child svg{transform:scaleX(-1)}.gpager button:disabled{opacity:.3}
+.ghin{flex:1;min-width:0;height:44px;margin:6px 10px;border:1.5px solid var(--accent);border-radius:12px;background:var(--bg);padding:0 12px;font-size:14.5px;color:var(--fg);outline:0}
+.gx.ok{color:#1f9d4a}
+.gbn{display:flex;align-items:center;gap:2px;background:var(--card);border-radius:14px;margin-bottom:8px;padding:6px 6px 6px 4px}
+.gbn-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;padding:6px 10px}
+.gbn-t b{font-size:13.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.gbn-t small{color:var(--muted);font-size:11.5px}
+.gbn-k{align-self:flex-start;font-size:11px;padding:1px 8px;border-radius:8px;background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent);font-weight:700}
 
 </style>
 <div id="app"><main id="main"></main><nav class="bar" id="nav" aria-label="بخش‌های اصلی"></nav></div><div id="pages"></div><div id="sheets"></div>
@@ -1859,6 +1874,7 @@ const IC = {
   users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 19c.7-3.4 3.2-5 6.5-5s5.8 1.6 6.5 5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.5 0 4 1.4 4.5 4"/>',
   check: '<path d="M5 12.5l4.5 4.5L19 7"/>',
   edit: '<path d="M4 20h4L19 9l-4-4L4 16z"/>',
+  chatplus: '<path d="M4 5h16v11H9l-5 4z"/><path d="M12 8v5M9.5 10.5h5"/>',
   bookmark: '<path d="M7 4h10v16l-5-4-5 4z"/>',
   clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/>',
   send: '<path d="M4 12L20 4l-6 16-3-7z"/><path d="M11 13l9-9"/>',
@@ -5097,10 +5113,10 @@ function gSaveChat() { if (!gd.cur || !gd.cur.msgs.some(m => m.me)) return; cons
 function gNewChat() { gd.cur = { id: gid(), ts: Date.now(), title: '', msgs: [{ id: gid(), me: 0, ts: Date.now(), h: '<div class="gcard"><b>سلام! من «راهنمای من» هستم 👋</b><br>هر چیزی درباره‌ی اپ بپرس؛ مسیر را با فلش نشانت می‌دهم و اگر بخواهی خودم روی اپ نشانت می‌دهم. به اطلاعات دفترت هم دسترسی دارم: مانده‌ی حساب‌ها، موجودی و فروش.</div>', hi: 1 }] }; }
 const gAv = '<span class="gav">' + ico('bot', 18) + '</span>';
 function gMsgHtml(m) {
-  if (m.me) return '<div class="gm me" data-id="' + m.id + '"><div class="gb me">' + m.h + '</div><div class="gts">' + gtime(m.ts) + ' <span class="gtick">' + ico('check', 13) + ico('check', 13) + '</span></div></div>';
+  if (m.me) return '<div class="gm me" data-id="' + m.id + '"><div class="gb me">' + m.h + '</div>' + gActs(m) + '<div class="gts">' + gtime(m.ts) + ' <span class="gtick">' + ico('check', 13) + ico('check', 13) + '</span></div></div>';
   return '<div class="gm bt" data-id="' + m.id + '">' + gAv + '<div class="gcol"><div class="gb bt">' + m.h + '</div>' + (m.hi ? '' : gActs(m)) + '<div class="gts">' + gtime(m.ts) + '</div></div></div>';
 }
-const gActs = m => '<div class="gact">' + '<button class="tap" data-a="g-copy" data-id="' + m.id + '" aria-label="کپی">' + ico('copy', 17) + '</button><button class="tap' + (gSaved().some(x => x.id === m.id) ? ' on' : '') + '" data-a="g-save" data-id="' + m.id + '" aria-label="ذخیره">' + ico('bookmark', 17) + '</button><button class="tap" data-a="g-del" data-id="' + m.id + '" aria-label="حذف">' + ico('trash', 17) + '</button></div>';
+const gActs = m => '<div class="gact' + (m.me ? ' mine' : '') + '">' + '<button class="tap" data-a="g-copy" data-id="' + m.id + '" aria-label="کپی">' + ico('copy', 17) + '</button><button class="tap' + (gSaved().some(x => x.id === m.id) ? ' on' : '') + '" data-a="g-save" data-id="' + m.id + '" aria-label="ذخیره">' + ico('bookmark', 17) + '</button><button class="tap" data-a="g-del" data-id="' + m.id + '" aria-label="حذف">' + ico('trash', 17) + '</button></div>';
 const gSaved = () => gLS('broast-gsaved', []);
 const gEl = () => $('#gpg'), gMsgs = () => $('#gmsgs');
 function gToBottom(smooth) { const c = gMsgs(); if (c) c.scrollTo({ top: c.scrollHeight, behavior: smooth ? 'smooth' : 'instant' }); }
@@ -5136,16 +5152,16 @@ function gAnswerHtml(q) {
 }
 function gAsk(txt) {
   const q = (txt || '').trim(); if (!q || gd.wait) return; gPop(0);
-  if (!gd.cur.title) gd.cur.title = q.slice(0, 50);
+  if (!gd.cur.title) gd.cur.title = gTitleFor(q);
   gAdd({ id: gid(), me: 1, ts: Date.now(), h: esc(q) }); gReply(gAnswerHtml(q));
 }
-const GICONS = '';
+function gTitleFor(q) { if (gData(q)) return q.slice(0, 40); const r = gSearch(q); if (r.length && r[0].sc >= 6) return r[0].t.title.replace(/\s*\(.*$/, '').slice(0, 40); return q.slice(0, 40); }
 function gOpenView(v, arg) {
   const el = gEl(); if (!el) return; gd.view = v; el.dataset.v = v; const main = $('#gview', el), ttl = $('#gvt', el);
   if (v === 'chat') { main.innerHTML = ''; return; }
 }
 function gShell() {
-  return '<div class="ghead"><button class="tap gh-btn" data-a="g-menu" aria-label="منو">' + ico('menu', 24) + '</button><div class="gh-mid"><span class="gav big">' + ico('bot', 26) + '</span><b>راهنمای من</b><small><i class="gdot"></i>همیشه کنارتم</small></div><button class="tap gh-btn" data-a="g-hist" aria-label="چت‌های ذخیره‌شده">' + ico('clock', 24) + '</button></div>' +
+  return '<div class="ghead"><div class="gh-side"><button class="tap gh-btn" data-a="g-menu" aria-label="منو">' + ico('menu', 24) + '</button><button class="tap gh-btn" data-a="g-new2" aria-label="چت جدید">' + ico('chatplus', 24) + '</button></div><div class="gh-mid"><span class="gav big">' + ico('bot', 26) + '</span><b>راهنمای من</b><small><i class="gdot"></i>همیشه کنارتم</small></div><div class="gh-side end"><button class="tap gh-btn" data-a="g-hist" aria-label="تاریخچه‌ی چت‌ها">' + ico('clock', 24) + '</button></div></div>' +
     '<div class="gmsgs" id="gmsgs"></div><button class="tap gdown" id="gdown" data-a="g-down" aria-label="رفتن به آخر چت">' + ico('down', 22) + '</button>' +
     '<div class="gpop" id="gpop"></div>' +
     '<div class="gbar"><button class="tap gplus" id="gplus" data-a="g-plus" aria-label="سوال‌های آماده">' + ico('plus', 24) + '</button><input id="gin" placeholder="سوالت رو بنویس…" autocomplete="off" enterkeyhint="send"><button class="tap gsend" id="gsend" data-a="g-send" aria-label="ارسال">' + ico('send', 22) + '</button></div>' +
@@ -5173,6 +5189,7 @@ function gMenu() {
     '<button class="gdi tap" data-a="g-new">' + ico('plus', 22) + '<span>چت جدید</span></button>' +
     '<button class="gdi tap" data-a="g-book">' + ico('book', 22) + '<span>دفترچه راهنما</span><small>' + fa(GK.length) + ' آموزش</small></button>' +
     '<button class="gdi tap" data-a="g-saved">' + ico('bookmark', 22) + '<span>ذخیره‌ها</span><small>' + fa(gSaved().length) + '</small></button>' +
+    '<button class="gdi tap" data-a="g-bin">' + ico('trash', 22) + '<span>سطل زباله</span><small>' + fa(gBin().length) + '</small></button>' +
     '<button class="gdi tap" data-a="g-exit">' + ico('back', 22) + '<span>بازگشت به اپ</span></button></div>', 'side');
 }
 function gBook(open) {
@@ -5181,10 +5198,23 @@ function gBook(open) {
 }
 function gBookTopic(id) { const k = GK.find(x => x.id === id); if (!k) return; gSheet('<div class="gfull"><div class="gfh"><button class="tap gx" data-a="g-book" aria-label="برگشت">' + ico('back', 22) + '</button><b>' + esc(k.title) + '</b><span></span></div><div class="gfb"><div class="gb bt wide">' + gCard(k) + '</div></div></div>', 'full'); }
 function gSavedView() {
-  const a = gSaved(); gSheet('<div class="gfull"><div class="gfh"><button class="tap gx" data-a="g-menu" aria-label="برگشت">' + ico('back', 22) + '</button><b>ذخیره‌ها</b><span></span></div><div class="gfb">' + (a.length ? a.map(x => '<div class="gsv"><div class="gb bt wide">' + x.h + '</div><div class="gact"><button class="tap" data-a="g-svcopy" data-id="' + x.id + '">' + ico('copy', 17) + '</button><button class="tap" data-a="g-svdel" data-id="' + x.id + '">' + ico('trash', 17) + '</button><span class="gts">' + gtime(x.ts) + '</span></div></div>').join('') : '<div class="gnote" style="margin-top:40px">هنوز جوابی ذخیره نکرده‌ای.<br>زیر هر جواب روی علامت نشان ذخیره بزن.</div>') + '</div></div>', 'full');
+  const a = gSaved(); gSheet('<div class="gfull"><div class="gfh"><button class="tap gx" data-a="g-menu" aria-label="برگشت">' + ico('back', 22) + '</button><b>ذخیره‌ها</b><span></span></div><div class="gfb">' + (a.length ? a.map(x => '<div class="gsv"><div class="gb ' + (x.me ? 'me' : 'bt') + ' wide">' + x.h + '</div><div class="gact"><button class="tap" data-a="g-svcopy" data-id="' + x.id + '">' + ico('copy', 17) + '</button><button class="tap" data-a="g-svdel" data-id="' + x.id + '">' + ico('trash', 17) + '</button><span class="gts">' + gtime(x.ts) + '</span></div></div>').join('') : '<div class="gnote" style="margin-top:40px">هنوز جوابی ذخیره نکرده‌ای.<br>زیر هر جواب روی علامت نشان ذخیره بزن.</div>') + '</div></div>', 'full');
 }
-function gHist() {
-  const a = gChats(); gSheet('<div class="gfull"><div class="gfh"><button class="tap gx" data-a="g-sub-x" aria-label="بستن">' + ico('close', 22) + '</button><b>چت‌های ذخیره‌شده</b><span></span></div><div class="gfb">' + (a.length ? a.map(c => '<div class="ghr"><button class="tap ghm" data-a="g-open" data-id="' + c.id + '"><b>' + esc(c.title || 'چت') + '</b><small>' + fa(c.msgs.filter(m => m.me).length) + ' سوال • ' + new Date(c.ts).toLocaleDateString('fa-IR') + '</small></button><button class="tap gx" data-a="g-chdel" data-id="' + c.id + '" aria-label="حذف">' + ico('trash', 18) + '</button></div>').join('') : '<div class="gnote" style="margin-top:40px">هنوز چتی ذخیره نشده.<br>چت‌هایت خودکار اینجا ذخیره می‌شوند.</div>') + '</div></div>', 'full');
+const GPG = 7;
+function gHist(pg) {
+  const all = gChats().sort((a, b) => b.ts - a.ts), n = Math.max(1, Math.ceil(all.length / GPG)); pg = Math.min(Math.max(+pg || 0, 0), n - 1); gd.hp = pg;
+  const list = all.slice(pg * GPG, pg * GPG + GPG);
+  const pager = n > 1 ? '<div class="gpager"><button class="tap" data-a="g-hp" data-p="' + (pg - 1) + '"' + (pg === 0 ? ' disabled' : '') + '>' + ico('left', 18) + '</button><span>صفحه ' + fa(pg + 1) + ' از ' + fa(n) + '</span><button class="tap" data-a="g-hp" data-p="' + (pg + 1) + '"' + (pg >= n - 1 ? ' disabled' : '') + '>' + ico('left', 18) + '</button></div>' : '';
+  gSheet('<div class="gfull"><div class="gfh"><button class="tap gx" data-a="g-sub-x" aria-label="بستن">' + ico('close', 22) + '</button><b>تاریخچه‌ی چت‌ها</b><span></span></div><div class="gfb">' + (list.length ? list.map(c => '<div class="ghr" data-id="' + c.id + '"><button class="tap ghm" data-a="g-open" data-id="' + c.id + '"><b>' + esc(c.title || 'چت') + '</b><small>' + fa(c.msgs.filter(m => m.me).length) + ' سوال • ' + new Date(c.ts).toLocaleDateString('fa-IR') + (gd.cur && gd.cur.id === c.id ? ' • فعلی' : '') + '</small></button><button class="tap gx" data-a="g-chren" data-id="' + c.id + '" aria-label="ویرایش نام">' + ico('edit', 18) + '</button><button class="tap gx" data-a="g-chdel" data-id="' + c.id + '" aria-label="حذف">' + ico('trash', 18) + '</button></div>').join('') + pager : '<div class="gnote" style="margin-top:40px">هنوز چتی ذخیره نشده.<br>چت‌هایت خودکار اینجا ذخیره می‌شوند.</div>') + '</div></div>', 'full');
+}
+/* ---- سطل زباله: ۳۰ روز مهلت بازگردانی ---- */
+const gBin = () => gLS('broast-gbin', []).filter(x => Date.now() - x.ts < 30 * 864e5);
+const gBinSet = a => gSV('broast-gbin', a);
+function gBinAdd(e) { const a = gBin(); a.unshift({ id: gid(), ts: Date.now(), ...e }); gBinSet(a.slice(0, 300)); }
+function gBinView() {
+  const a = gBin(), left = x => Math.max(1, Math.ceil((x.ts + 30 * 864e5 - Date.now()) / 864e5));
+  gSheet('<div class="gfull"><div class="gfh"><button class="tap gx" data-a="g-menu" aria-label="برگشت">' + ico('back', 22) + '</button><b>سطل زباله</b>' + (a.length ? '<button class="tap gx txt" data-a="g-binclr">خالی کردن</button>' : '<span></span>') + '</div><div class="gfb"><div class="gnote" style="margin:0 0 12px">موارد حذف‌شده تا ۳۰ روز اینجا می‌مانند و بعد برای همیشه پاک می‌شوند.</div>' +
+    (a.length ? a.map(x => '<div class="gbn"><div class="gbn-t"><span class="gbn-k">' + (x.kind === 'chat' ? 'چت' : (x.m && x.m.me ? 'پیام شما' : 'پیام راهنما')) + '</span><b>' + esc(x.kind === 'chat' ? (x.chat.title || 'چت') : gPlain(x.m.h).slice(0, 70)) + '</b><small>' + fa(left(x)) + ' روز مانده' + (x.kind === 'chat' ? ' • ' + fa(x.chat.msgs.length) + ' پیام' : '') + '</small></div><button class="tap gx" data-a="g-binrs" data-id="' + x.id + '" aria-label="بازگردانی">' + ico('undo', 20) + '</button><button class="tap gx" data-a="g-bindel" data-id="' + x.id + '" aria-label="حذف همیشگی">' + ico('trash', 18) + '</button></div>').join('') : '<div class="gnote" style="margin-top:40px">سطل زباله خالی است.</div>') + '</div></div>', 'full');
 }
 A.bot = () => guideOpen();
 A['g-send'] = () => { const i = $('#gin'); if (!i) return; const v = i.value; i.value = ''; gAsk(v); };
@@ -5195,15 +5225,24 @@ A['g-down'] = () => gToBottom(true);
 A['g-menu'] = () => gMenu(); A['g-sub-x'] = () => gSheetClose(); A['g-book'] = () => gBook(); A['g-bk'] = t => gBookTopic(t.dataset.id); A['g-saved'] = () => gSavedView(); A['g-hist'] = () => gHist();
 A['g-exit'] = () => gClose();
 A['g-new'] = () => { gSaveChat(); gNewChat(); gSheetClose(); $('#gmsgs').innerHTML = gd.cur.msgs.map(gMsgHtml).join(''); gToBottom(false); };
-A['g-open'] = t => { const c = gChats().find(x => x.id === t.dataset.id); if (!c) return; gSaveChat(); gd.cur = c; gSheetClose(); $('#gmsgs').innerHTML = c.msgs.map(m => gMsgHtml({ ...m, hi: 0 })).join(''); gToBottom(false); setTimeout(() => { gToBottom(false); gArrowChk(); }, 50); };
-A['g-chdel'] = t => { gSV('broast-chats', gChats().filter(c => c.id !== t.dataset.id)); if (gd.cur && gd.cur.id === t.dataset.id) { gNewChat(); $('#gmsgs').innerHTML = gd.cur.msgs.map(gMsgHtml).join(''); } gHist(); };
+A['g-open'] = t => { const c = gChats().find(x => x.id === t.dataset.id); if (!c) return; gSaveChat(); gd.cur = c; gSheetClose(); $('#gmsgs').innerHTML = c.msgs.map(gMsgHtml).join(''); gToBottom(false); setTimeout(() => { gToBottom(false); gArrowChk(); }, 50); };
+A['g-chdel'] = t => { const c = gChats().find(x => x.id === t.dataset.id); if (!c) return; gBinAdd({ kind: 'chat', chat: c }); gSV('broast-chats', gChats().filter(x => x.id !== c.id)); if (gd.cur && gd.cur.id === c.id) { gNewChat(); $('#gmsgs').innerHTML = gd.cur.msgs.map(gMsgHtml).join(''); } toast('به سطل زباله رفت'); gHist(gd.hp); };
+A['g-hp'] = t => gHist(+t.dataset.p);
+A['g-chren'] = t => { const row = document.querySelector('.ghr[data-id="' + t.dataset.id + '"]'), c = gChats().find(x => x.id === t.dataset.id); if (!row || !c) return; row.innerHTML = '<input class="ghin" value="' + esc(c.title || '') + '" maxlength="60"><button class="tap gx ok" data-a="g-chok" data-id="' + c.id + '" aria-label="ذخیره نام">' + ico('check', 20) + '</button>'; const i = row.querySelector('input'); i.focus(); i.select(); i.addEventListener('keydown', e => { if (e.key === 'Enter') A['g-chok']({ dataset: { id: c.id } }); }); };
+A['g-chok'] = t => { const row = document.querySelector('.ghr[data-id="' + t.dataset.id + '"] input'); const v = row ? row.value.trim() : ''; const a = gChats(), c = a.find(x => x.id === t.dataset.id); if (c && v) { c.title = v; gSV('broast-chats', a); if (gd.cur && gd.cur.id === c.id) gd.cur.title = v; } gHist(gd.hp); };
+A['g-bin'] = () => gBinView();
+A['g-binclr'] = () => { if (confirm('همه‌ی موارد سطل زباله برای همیشه پاک شود؟')) { gBinSet([]); gBinView(); } };
+A['g-bindel'] = t => { gBinSet(gBin().filter(x => x.id !== t.dataset.id)); gBinView(); };
+A['g-binrs'] = t => { const a = gBin(), x = a.find(y => y.id === t.dataset.id); if (!x) return; if (x.kind === 'chat') { const cs = gChats(); if (!cs.some(c => c.id === x.chat.id)) { cs.unshift(x.chat); gSV('broast-chats', cs); } } else { const m = x.m; if (gd.cur && gd.cur.id === x.chatId) { gd.cur.msgs.splice(Math.min(x.idx, gd.cur.msgs.length), 0, m); $('#gmsgs').innerHTML = gd.cur.msgs.map(gMsgHtml).join(''); gSaveChat(); } else { const cs = gChats(); let c = cs.find(y => y.id === x.chatId); if (c) { c.msgs.splice(Math.min(x.idx, c.msgs.length), 0, m); } else { cs.unshift({ id: x.chatId, ts: Date.now(), title: x.chatTitle || 'چت بازیابی‌شده', msgs: [m] }); } gSV('broast-chats', cs); } } gBinSet(a.filter(y => y.id !== x.id)); toast('بازگردانی شد'); gBinView(); };
+A['g-new2'] = () => { if (gd.wait) return; gSaveChat(); gNewChat(); gSheetClose(); $('#gmsgs').innerHTML = gd.cur.msgs.map(gMsgHtml).join(''); gToBottom(false); };
 const gPlain = h => { const d = document.createElement('div'); d.innerHTML = h; d.querySelectorAll('.gfin,.gact,.gts,svg').forEach(x => x.remove()); return d.innerText.replace(/\n{3,}/g, '\n\n').trim(); };
-function gCopy(text) { const ok = () => toast('کپی شد'), fb = () => { const t = document.createElement('textarea'); t.value = text; t.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); ok(); } catch (x) {} t.remove(); }; try { navigator.clipboard.writeText(text).then(ok, fb); } catch (e) { fb(); } }
-A['g-copy'] = t => { const m = gd.cur.msgs.find(x => x.id === t.dataset.id); if (m) { const d = document.querySelector('#gmsgs [data-id="' + m.id + '"] .gb'); gCopy(d ? gPlain(d.innerHTML) : gPlain(m.h)); } };
-A['g-save'] = t => { const id = t.dataset.id, m = gd.cur.msgs.find(x => x.id === id); if (!m) return; let a = gSaved(); if (a.some(x => x.id === id)) { a = a.filter(x => x.id !== id); t.classList.remove('on'); toast('از ذخیره‌ها برداشته شد'); } else { a.unshift({ id, h: m.h, ts: Date.now() }); t.classList.add('on'); toast('در ذخیره‌ها ذخیره شد'); } gSV('broast-gsaved', a); };
-A['g-del'] = t => { const id = t.dataset.id; gd.cur.msgs = gd.cur.msgs.filter(x => x.id !== id); const e = document.querySelector('#gmsgs [data-id="' + id + '"]'); if (e) { e.style.transition = 'all .25s'; e.style.opacity = 0; e.style.transform = 'scale(.95)'; setTimeout(() => e.remove(), 250); } gSaveChat(); };
+function gCopy(text, cb) { const ok = () => (cb ? cb() : toast('کپی شد')), fb = () => { const t = document.createElement('textarea'); t.value = text; t.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); } catch (x) {} t.remove(); ok(); }; try { navigator.clipboard.writeText(text).then(ok, fb); } catch (e) { fb(); } }
+const gOk = t => { if (!t || !t.classList) return; const old = t.innerHTML; t.classList.add('cok'); t.innerHTML = ico('check', 17) + '<span>متن کپی شد</span>'; clearTimeout(t._ct); t._ct = setTimeout(() => { t.classList.remove('cok'); t.innerHTML = old; }, 1800); };
+A['g-copy'] = t => { const m = gd.cur.msgs.find(x => x.id === t.dataset.id); if (!m) return; const d = document.querySelector('#gmsgs [data-id="' + m.id + '"] .gb'); gCopy(d ? gPlain(d.innerHTML) : gPlain(m.h), () => gOk(t)); };
+A['g-save'] = t => { const id = t.dataset.id, m = gd.cur.msgs.find(x => x.id === id); if (!m) return; let a = gSaved(); if (a.some(x => x.id === id)) { a = a.filter(x => x.id !== id); t.classList.remove('on'); toast('از ذخیره‌ها برداشته شد'); } else { a.unshift({ id, h: m.h, me: m.me ? 1 : 0, ts: Date.now() }); t.classList.add('on'); toast('در ذخیره‌ها ذخیره شد'); } gSV('broast-gsaved', a); };
+A['g-del'] = t => { const id = t.dataset.id, i = gd.cur.msgs.findIndex(x => x.id === id); if (i < 0) return; gBinAdd({ kind: 'msg', m: gd.cur.msgs[i], chatId: gd.cur.id, idx: i, chatTitle: gd.cur.title }); gd.cur.msgs.splice(i, 1); const e = document.querySelector('#gmsgs [data-id="' + id + '"]'); if (e) { e.style.transition = 'all .25s'; e.style.opacity = 0; e.style.transform = 'scale(.95)'; setTimeout(() => e.remove(), 250); } gSaveChat(); toast('به سطل زباله رفت'); };
 A['g-svdel'] = t => { gSV('broast-gsaved', gSaved().filter(x => x.id !== t.dataset.id)); gSavedView(); };
-A['g-svcopy'] = t => { const m = gSaved().find(x => x.id === t.dataset.id); if (m) gCopy(gPlain(m.h)); };
+A['g-svcopy'] = t => { const m = gSaved().find(x => x.id === t.dataset.id); if (m) gCopy(gPlain(m.h), () => gOk(t)); };
 A['g-party'] = t => { gClose(); setTimeout(() => openParty(t.dataset.id), 300); };
 /* ---------- نشان‌دادن روی خود اپ (فقط اشاره و عبور؛ هیچ‌چیز ثبت نمی‌شود) ---------- */
 async function wf(sel, ms) { const t0 = Date.now(); while (Date.now() - t0 < (ms || 2200)) { const e = gFind(sel); if (e) return e; await sleep(70); } return null; }
