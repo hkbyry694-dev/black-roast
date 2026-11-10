@@ -424,6 +424,19 @@ details.tb summary{cursor:pointer;color:var(--accent);font-size:13px;padding:6px
 .gbn-t small{color:var(--muted);font-size:11.5px}
 .gbn-k{align-self:flex-start;font-size:11px;padding:1px 8px;border-radius:8px;background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent);font-weight:700}
 
+.botb{position:relative}
+.gbadge{position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:#E5322D;color:#fff;font:700 12px/22px inherit;font-style:normal;text-align:center;border:2px solid var(--head);display:none;box-shadow:0 2px 6px rgba(0,0,0,.35);animation:gpop .35s cubic-bezier(.3,1.6,.5,1)}
+.gbadge.on{display:block}
+@keyframes gpop{from{transform:scale(0)}}
+.gal{display:flex;align-items:center;gap:10px;padding:10px;border-radius:14px;margin-top:8px;background:color-mix(in srgb,var(--accent) 7%,transparent);border-right:4px solid #8aa}
+.gal.r{border-right-color:#E5322D;background:color-mix(in srgb,#E5322D 8%,transparent)}.gal.y{border-right-color:#E8A24A;background:color-mix(in srgb,#E8A24A 10%,transparent)}.gal.i{border-right-color:var(--accent)}
+.gal-i{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--card);color:var(--accent);flex:none}
+.gal-t{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.7}.gal-t b{font-size:13.5px}.gal-t small{color:var(--muted);font-size:12px}
+.gal-b{flex:none}
+.gplain{background:none}
+.ghelp{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.22);color:#fff;font-weight:800;font-size:16px;border:1.5px solid rgba(255,255,255,.5);display:inline-grid;place-items:center;margin-inline-end:6px;flex:none}
+h3.st .ghelp{position:absolute;left:0;top:50%;transform:translateY(-50%);background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent);border-color:var(--accent)}
+
 </style>
 <div id="app"><main id="main"></main><nav class="bar" id="nav" aria-label="بخش‌های اصلی"></nav></div><div id="pages"></div><div id="sheets"></div>
 <script>
@@ -2003,7 +2016,7 @@ function tabLedger() {
     const s = L.summary(S, { from: r && r.from, to: r && r.to, ledgerId: lid });
     status = '<div class="lbl">فروش و سود در این بازه</div><div class="val">' + mu(s.rev) + '</div><div class="lbl">سود ناخالص: <b class="' + (s.profit < 0 ? 'neg' : 'pos') + '">' + mu(s.profit) + '</b> • ' + fa(s.count) + ' فاکتور</div><div class="lbl">سود خالص شما (بعد از شرکا، ویزیتور و هزینه‌ها): <b class="' + (s.net < 0 ? 'neg' : 'pos') + '">' + mu(s.net) + '</b></div>';
   }
-  const head = '<div class="top"><div class="lbox"><span class="blogo" aria-hidden="true"></span><button class="ledger-pick tap" data-a="ledgers"><span class="t"><b>' + esc(ledger().name) + '</b><small>برای تغییر یا ویرایش دفتر کلیک کنید • ' + cur() + '</small></span>' + ico('down', 20) + '</button><button class="botb tap" data-a="bot" aria-label="راهنمای من">' + ico('bot', 24) + '</button></div>' +
+  const head = '<div class="top"><div class="lbox"><span class="blogo" aria-hidden="true"></span><button class="ledger-pick tap" data-a="ledgers"><span class="t"><b>' + esc(ledger().name) + '</b><small>برای تغییر یا ویرایش دفتر کلیک کنید • ' + cur() + '</small></span>' + ico('down', 20) + '</button><button class="botb tap" data-a="bot" aria-label="راهنمای من">' + ico('bot', 24) + '<i class="gbadge"></i></button></div>' +
     '<div class="seg"><button class="tap' + (ui.sub === 'parties' ? ' on' : '') + '" data-a="sub" data-id="parties">طرف‌حساب‌ها</button><button class="tap' + (ui.sub === 'txns' ? ' on' : '') + '" data-a="sub" data-id="txns">تراکنش‌ها</button></div>' +
     rangeChips() +
     '<div class="status">' + status + '</div>' +
@@ -5171,7 +5184,7 @@ function guideOpen() {
   let el = gEl(); if (el) el.remove();
   el = document.createElement('div'); el.id = 'gpg'; el.innerHTML = gShell(); document.body.appendChild(el);
   if (!gd.cur) gNewChat();
-  $('#gmsgs').innerHTML = gd.cur.msgs.map(gMsgHtml).join(''); gToBottom(false); setTimeout(() => { gToBottom(false); gArrowChk(); }, 60);
+  $('#gmsgs').innerHTML = gd.cur.msgs.map(gMsgHtml).join(''); gPushAlerts(); gToBottom(false); setTimeout(() => { gToBottom(false); gArrowChk(); }, 60);
   $('#gmsgs').addEventListener('scroll', gArrowChk, { passive: true });
   $('#gin').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); A['g-send'](); } });
   try { history.pushState({ g: 1 }, ''); gd.hist = 1; } catch (e) {}
@@ -5187,6 +5200,7 @@ const GBOOK = [['شروع کار', 'flag', ['profile', 'ledger_new', 'settings',
 function gMenu() {
   gSheet('<div class="gdr"><div class="gdh"><span class="gav big">' + ico('bot', 26) + '</span><div><b>راهنمای من</b><small>دفترچه‌ی راهنما و ذخیره‌ها</small></div><button class="tap gx" data-a="g-sub-x" aria-label="بستن">' + ico('close', 20) + '</button></div>' +
     '<button class="gdi tap" data-a="g-new">' + ico('plus', 22) + '<span>چت جدید</span></button>' +
+    '<button class="gdi tap" data-a="g-al">' + ico('calendar', 22) + '<span>اعلان‌ها و یادآوری‌ها</span><small>' + fa(gAlerts().length) + '</small></button>' +
     '<button class="gdi tap" data-a="g-book">' + ico('book', 22) + '<span>دفترچه راهنما</span><small>' + fa(GK.length) + ' آموزش</small></button>' +
     '<button class="gdi tap" data-a="g-saved">' + ico('bookmark', 22) + '<span>ذخیره‌ها</span><small>' + fa(gSaved().length) + '</small></button>' +
     '<button class="gdi tap" data-a="g-bin">' + ico('trash', 22) + '<span>سطل زباله</span><small>' + fa(gBin().length) + '</small></button>' +
@@ -5278,6 +5292,53 @@ A['g-end'] = () => { gBar(''); gRing(null); };
 A['g-back'] = () => { gBar(''); gRing(null); guideOpen(); };
 try { window.__hesab.g = { gtok, gSearch, GK }; } catch (e) {}
 try { window.__hesab.g.GQ40 = GQ40; window.__hesab.g.gAnswerHtml = gAnswerHtml; } catch (e) {}
+
+/* ===================== اعلان‌های فعال ===================== */
+function gAlerts() {
+  const out = [], now = Date.now(), lid = S.activeLedger; let r = { cheques: [], debts: [], low: [] };
+  try { r = L.reminders(S, now, lid); } catch (e) {}
+  const nm = id => (party(id) || {}).name || '';
+  r.cheques.slice(0, 6).forEach(x => { const d = x.days, ph = d < 0 ? 'o' : d === 0 ? 't' : 's'; out.push({ key: 'chq:' + x.c.id + ':' + ph, sev: d <= 0 ? 'r' : 'y', ic: 'bank', t: (x.c.dir === 'in' ? 'چک دریافتی ' : 'چک پرداختی ') + mu(x.c.amount), x: nm(x.c.partyId) + ' — ' + (d < 0 ? fa(-d) + ' روز از سررسید گذشته' : d === 0 ? 'امروز سررسید است' : fa(d) + ' روز تا سررسید'), go: { a: 'chq', id: x.c.id } }); });
+  if (r.cheques.length > 6) out.push({ key: 'chqm:' + r.cheques.length, sev: 'y', ic: 'bank', t: fa(r.cheques.length - 6) + ' چک دیگر هم نزدیک سررسید است', x: '', go: { a: 'go-rem' } });
+  r.debts.slice(0, 6).forEach(x => { const d = x.days, ph = d < 0 ? 'o' : d === 0 ? 't' : 's'; out.push({ key: 'dbt:' + x.doc.id + ':' + ph, sev: d <= 0 ? 'r' : 'y', ic: 'coin', t: (x.dir > 0 ? 'باید از ' + x.party.name + ' بگیری: ' : 'باید به ' + x.party.name + ' بدهی: ') + mu(x.amount), x: d < 0 ? fa(-d) + ' روز از سررسید گذشته' : d === 0 ? 'امروز سررسید است' : fa(d) + ' روز تا سررسید', go: { a: 'party', id: x.party.id } }); });
+  r.low.slice(0, 8).forEach(p => { const st = L.stockOf(S, p.id); out.push({ key: 'low:' + p.id + ':' + Math.round(st), sev: st <= 0 ? 'r' : 'y', ic: 'box', t: (st <= 0 ? 'تمام شده: ' : 'کم‌موجود: ') + p.name, x: 'موجودی ' + qf(st) + ' ' + (p.unit || '') + ' (حداقل ' + qf(p.min) + ')', go: { a: 'prod', id: p.id } }); });
+  if (r.low.length > 8) out.push({ key: 'lowm:' + r.low.length, sev: 'y', ic: 'box', t: fa(r.low.length - 8) + ' کالای کم‌موجود دیگر', x: '', go: { a: 'go-rem' } });
+  try { const sp = spCalc().filter(x => x.lvl === 'r'); if (sp.length) out.push({ key: 'sp:' + sp.length + ':' + new Date().toISOString().slice(0, 10), sev: 'y', ic: 'cart', t: fa(sp.length) + ' محصول باید به‌زودی خریداری شود', x: 'بر اساس فروش ۳۰ روز اخیر و موجودی فعلی', go: { a: 'go-purch' } }); } catch (e) {}
+  try { const ch = L.churnList(S, 30, now, lid).filter(x => x.count >= 2); if (ch.length) out.push({ key: 'churn:' + ch.length, sev: 'i', ic: 'users', t: fa(ch.length) + ' مشتری ۳۰ روز است خرید نکرده‌اند', x: 'مثلاً ' + nm(ch[0].partyId) + ' (' + fa(ch[0].days) + ' روز) — شاید وقت تماس باشد', go: { a: 'party', id: ch[0].partyId } }); } catch (e) {}
+  const sevo = { r: 0, y: 1, i: 2 }; return out.sort((a, b) => sevo[a.sev] - sevo[b.sev]);
+}
+const gSeen = () => gLS('broast-galerts', {});
+function gMarkSeen(list) { const s = gSeen(), now = Date.now(); list.forEach(a => { s[a.key] = now; }); Object.keys(s).forEach(k => { if (now - s[k] > 60 * 864e5) delete s[k]; }); gSV('broast-galerts', s); gBadge(); }
+function gUnseen() { const s = gSeen(); return gAlerts().filter(a => !s[a.key]); }
+function gBadge() { try { const n = gUnseen().length; document.querySelectorAll('.gbadge').forEach(b => { b.textContent = n > 99 ? '۹۹+' : fa(n); b.classList.toggle('on', n > 0); }); } catch (e) {} }
+setInterval(gBadge, 3000); setTimeout(gBadge, 800); document.addEventListener('visibilitychange', gBadge);
+const gAlHtml = (list, head) => '<div class="gcard"><div class="gtit">' + head + '</div>' + list.map(a => '<div class="gal ' + a.sev + '"><span class="gal-i">' + ico(a.ic, 18) + '</span><div class="gal-t"><b>' + esc(a.t) + '</b>' + (a.x ? '<small>' + esc(a.x) + '</small>' : '') + '</div>' + (a.go ? '<button class="chip tap gal-b" data-a="g-go" data-go="' + a.go.a + '" data-gid="' + (a.go.id || '') + '">ببین</button>' : '') + '</div>').join('') + '</div>';
+function gPushAlerts() { const u = gUnseen(); if (!u.length || !gd.cur) return; const m = { id: gid(), me: 0, ts: Date.now(), h: gAlHtml(u, '🔔 ' + fa(u.length) + ' اعلان جدید برای تو'), al: 1 }; gd.cur.msgs.push(m); const c = gMsgs(); if (c) c.insertAdjacentHTML('beforeend', gMsgHtml(m)); gMarkSeen(u); gSaveChat(); }
+A['g-go'] = t => { const a = t.dataset.go, id = t.dataset.gid; gClose(); setTimeout(() => { try { const b = document.createElement('button'); b.setAttribute('data-a', a); if (id) b.dataset.id = id; b.style.display = 'none'; document.body.appendChild(b); b.click(); b.remove(); } catch (e) { toast('این مورد دیگر وجود ندارد.', 1); } }, 320); };
+function gAlView() { const l = gAlerts(); gMarkSeen(l); gSheet('<div class="gfull"><div class="gfh"><button class="tap gx" data-a="g-menu" aria-label="برگشت">' + ico('back', 22) + '</button><b>اعلان‌ها و یادآوری‌ها</b><span></span></div><div class="gfb">' + (l.length ? gAlHtml(l, 'الان این‌ها نیاز به توجه دارند').replace('class="gcard"', 'class="gcard gplain"') : '<div class="gnote" style="margin-top:40px">همه چیز مرتب است 👌<br>چک، سررسید، موجودی یا کار مهمی منتظر تو نیست.</div>') + '</div></div>', 'full'); }
+A['g-al'] = () => gAlView();
+/* ===================== راهنمای بافت‌محور: دکمه‌ی «؟» روی صفحه‌ها ===================== */
+function gTopicOf(node) {
+  const q = sel => node.querySelector(sel), cls = node.className || '', title = (node.querySelector('.phead h2, h3.st') || {}).innerText || '';
+  if (cls.includes('page')) {
+    if (q('[data-a=inv-save]')) return /پیش/.test(title) ? 'proforma' : cls.includes('buy') ? 'buy' : 'sale';
+    if (q('#cam')) return /گرفت|دریافت/.test(title) ? 'receipt' : 'payment';
+    if (q('#mam')) return /هزینه/.test(title) ? 'expense' : 'income';
+    if (q('.stin')) return 'stocktake'; if (q('#ivbt')) return 'invset'; if (q('[data-a=pp-chq]') || q('[data-a=pp-sms]')) return 'party_page';
+    if (/چک/.test(title)) return 'cheque'; if (/یادآوری/.test(title)) return 'today'; if (/پشتیبان/.test(title)) return 'backup'; if (/گزارش/.test(title)) return 'reports'; if (/پیشنهاد خرید/.test(title)) return 'purch'; if (/تنظیمات/.test(title)) return 'settings'; if (/پروفایل/.test(title)) return 'profile';
+    return null;
+  }
+  if (q('#iq')) { if (q('[data-a=cp-on]')) return 'blend'; const pg = [...document.querySelectorAll('#pages>.page')].pop(); return pg && pg.classList.contains('buy') ? 'buy' : 'sale'; }
+  if (q('#pn')) return 'party_new'; if (q('#gn')) return 'prod_new'; if (q('[data-a=a-save]')) return 'account_new';
+  return null;
+}
+function gAttachHelp(node) {
+  if (!node || node.nodeType !== 1 || node.querySelector('.ghelp')) return; const id = gTopicOf(node); if (!id || !GK.find(k => k.id === id)) return;
+  const b = '<button class="ghelp tap" data-a="g-help" data-id="' + id + '" aria-label="راهنمای این صفحه">؟</button>', hr = node.querySelector('.phead .hr'), h3 = node.querySelector('h3.st');
+  if (hr) hr.insertAdjacentHTML('afterbegin', b); else if (h3) { h3.style.position = 'relative'; h3.insertAdjacentHTML('beforeend', b); }
+}
+try { new MutationObserver(ms => { ms.forEach(m => m.addedNodes.forEach(n => { if (n.nodeType === 1 && (n.classList.contains('page') || n.classList.contains('sw'))) { setTimeout(() => gAttachHelp(n), 380); setTimeout(() => gAttachHelp(n), 1200); } })); }).observe(document.body, { childList: true, subtree: true }); } catch (e) {}
+A['g-help'] = t => { const k = GK.find(x => x.id === t.dataset.id); if (!k) return; if (!gEl()) guideOpen(); setTimeout(() => { if (gd.wait) return; gAdd({ id: gid(), me: 1, ts: Date.now(), h: esc('راهنمای: ' + k.title) }); gReply(gCard(k)); }, 350); };
 
 })();
 </script>
