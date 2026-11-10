@@ -311,7 +311,11 @@ details.tb summary{cursor:pointer;color:var(--accent);font-size:13px;padding:6px
 .av.img{background-color:#fff;background-size:contain;background-position:center;background-repeat:no-repeat;border:1px solid var(--line,#e3e6ef)}
 .av.img[style*="url('')"]{background-image:none!important}
 .inp{border:1.5px solid var(--line);border-radius:12px;background:var(--bg);padding:8px 10px;color:var(--fg);outline:0}.inp:focus{border-color:var(--accent)}
-.botb{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:var(--brand,#3B2216);color:#fff;flex:none;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.lbox{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border-radius:var(--r);padding:8px 10px}
+.lbox .blogo{width:46px;height:46px;border-radius:14px}
+.lbox .ledger-pick{flex:1;width:auto;min-width:0;background:none!important;padding:0 4px;border-radius:12px;color:#fff}
+.lbox .ledger-pick.tap:active,.lbox .ledger-pick.tap.on{background:none!important;color:#fff!important}
+.botb{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.22);color:#fff;flex:none;border:1.5px solid rgba(255,255,255,.35)}
 #bst{position:absolute;left:84px;bottom:calc(128px + env(safe-area-inset-bottom,0px));max-width:62%;background:#3B2216;color:#fff;padding:8px 14px;border-radius:14px;font-size:13px;opacity:0;transform:translateY(6px);transition:all .3s;pointer-events:none}
 #bst.on{opacity:1;transform:none}
 /* حالت کار: شفاف، ربات کوچک کنار صفحه */
@@ -319,33 +323,91 @@ details.tb summary{cursor:pointer;color:var(--accent);font-size:13px;padding:6px
 #bcur.tp svg{transform:scale(.8) translateY(4px)}
 #bcur svg{transition:transform .14s}
 @keyframes bpulse{50%{opacity:.55}}
-/* ===== راهنمای من ===== */
-.gchat{display:flex;flex-direction:column;gap:12px;padding:12px 4px 90px}
-.gb{max-width:94%;padding:12px 14px;border-radius:18px;font-size:14.5px;line-height:1.9}
-.gb.bt{align-self:flex-start;background:var(--card);border:1px solid rgba(120,90,60,.18);width:94%}
-.gb.me{align-self:flex-end;background:var(--brand,#3B2216);color:#fff}
-.gtit{font-weight:800;font-size:15.5px;margin-bottom:4px;color:var(--brand,#3B2216)}
-.gtxt{margin-bottom:8px}
-.gflow{display:flex;flex-wrap:wrap;align-items:center;gap:4px 2px;margin:10px 0;padding:10px;border-radius:14px;background:rgba(120,90,60,.1)}
-.gst{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:11px;background:var(--card);border:1px solid rgba(120,90,60,.25);font-size:12.5px;white-space:nowrap}
-.gst b{font-weight:700}.gst svg{color:var(--brand,#3B2216)}
-.garr{display:inline-flex;color:#B88B5E}
-.gsteps{margin:8px 0;padding:0 22px 0 0;font-size:13.5px}
-.gsteps li{margin:6px 0}.gsteps li span{color:var(--mut,#777);font-size:12.5px}
-.gtip{margin:8px 0;padding:8px 10px;border-radius:12px;background:rgba(232,162,74,.16);font-size:13px}
-.gbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-.gshow{height:42px;padding:0 16px;display:inline-flex;gap:6px;align-items:center}
-.gmore{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;align-items:center;font-size:12.5px}
-.gin{display:flex;gap:8px;align-items:center;padding:8px 4px}
-.gin input{flex:1;min-width:0;height:48px;border-radius:16px;border:1px solid rgba(120,90,60,.3);padding:0 14px;background:var(--card);color:inherit;font:inherit;font-size:16px}
-.gsend{width:48px;height:48px;border-radius:14px;background:var(--brand,#3B2216);color:#fff;display:grid;place-items:center;flex:none}
 #gring{position:fixed;z-index:9400;border:3px solid #E8A24A;border-radius:14px;pointer-events:none;box-shadow:0 0 0 4px rgba(232,162,74,.28);animation:gpulse 1s infinite;display:none}
 #gbar{position:fixed;left:12px;right:12px;bottom:calc(88px + env(safe-area-inset-bottom,0px));z-index:9600;background:#3B2216;color:#fff;border-radius:16px;padding:10px 12px;align-items:center;gap:8px;font-size:13.5px;box-shadow:0 6px 20px rgba(0,0,0,.35)}
 #gbar span{flex:1}#gbar button{background:#F3E3CC;color:#3B2216;border-radius:10px;padding:8px 12px;font-weight:700;font-size:13px}
 #bcur{position:fixed;left:0;top:0;z-index:9500;pointer-events:none;opacity:0;transition:transform .5s cubic-bezier(.4,.1,.2,1),opacity .3s;filter:drop-shadow(0 3px 5px rgba(0,0,0,.4))}
 @keyframes gpulse{50%{box-shadow:0 0 0 9px rgba(232,162,74,.1)}}
-.gmore .chip,.gb .gbtn{display:inline-flex;align-items:center;padding:7px 12px;border-radius:12px;border:1px solid rgba(120,90,60,.35);background:rgba(120,90,60,.08);font-size:12.5px;color:inherit;line-height:1.5;text-align:right}
 #gbar{bottom:auto !important;top:calc(10px + env(safe-area-inset-top,0px))}
+
+/* ===== چت‌بات: راهنمای من ===== */
+#gpg{position:fixed;inset:0;z-index:9000;display:flex;flex-direction:column;background:color-mix(in srgb,var(--accent) 7%,var(--bg));transform:translateY(100%);transition:transform .3s cubic-bezier(.3,.9,.3,1);overflow:hidden}
+#gpg.in{transform:none}
+.ghead{display:flex;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;background:var(--card);box-shadow:0 2px 14px rgba(0,0,0,.06);flex:none}
+.gh-btn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:var(--accent)}
+.gh-mid{display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.3}
+.gh-mid b{font-size:16px;color:var(--fg)}.gh-mid small{color:var(--muted);font-size:12px;display:flex;align-items:center;gap:5px}
+.gdot{width:7px;height:7px;border-radius:50%;background:#34c759;display:inline-block}
+.gav{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;color:#fff;background:linear-gradient(145deg,var(--accent),color-mix(in srgb,var(--accent) 55%,#fff))}
+.gav.big{width:48px;height:48px;box-shadow:0 4px 12px color-mix(in srgb,var(--accent) 40%,transparent)}
+.gmsgs{flex:1;overflow-y:auto;padding:16px 14px 18px;display:flex;flex-direction:column;gap:16px;overscroll-behavior:contain;scroll-behavior:auto}
+.gm{display:flex;gap:8px;align-items:flex-end;max-width:100%}
+.gm.bt{align-self:flex-start;flex-direction:row}.gm.me{align-self:flex-end;flex-direction:column;align-items:flex-end;gap:3px;max-width:82%}
+.gcol{display:flex;flex-direction:column;gap:3px;min-width:0;max-width:calc(100% - 38px)}
+.gb{padding:11px 15px;font-size:14.5px;line-height:1.95;word-wrap:break-word;overflow-wrap:anywhere}
+.gb.bt{background:var(--card);color:var(--fg);border-radius:20px 20px 20px 6px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.gb.me{background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 60%,#fff));color:#fff;border-radius:20px 20px 6px 20px;box-shadow:0 4px 14px color-mix(in srgb,var(--accent) 35%,transparent)}
+.gb.wide{border-radius:18px}
+.gts{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px;padding:0 6px}
+.gtick{display:inline-flex;color:var(--accent)}.gtick svg+svg{margin-right:-9px}
+.gact{display:flex;gap:2px;padding:0 4px;align-items:center}
+.gact button{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:var(--muted)}
+.gact button.on{color:var(--accent)}.gact button.on svg{fill:currentColor}
+.gact button:active{background:color-mix(in srgb,var(--accent) 14%,transparent)}
+.gload{display:flex;gap:6px;align-items:center;padding:15px 18px;width:70px}
+.gload i{width:8px;height:8px;border-radius:50%;background:var(--accent);opacity:.35;animation:gdots .5s infinite ease-in-out}
+.gload i:nth-child(2){animation-delay:.08s}.gload i:nth-child(3){animation-delay:.16s}
+@keyframes gdots{0%,100%{transform:translateY(0);opacity:.35}50%{transform:translateY(-6px);opacity:1}}
+.gcard .gtit{font-weight:800;font-size:15px;color:var(--accent);margin-bottom:2px}
+.gcard .gtxt{margin-bottom:6px}
+.gflow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 2px;margin:8px 0;padding:10px;border-radius:14px;background:color-mix(in srgb,var(--accent) 9%,transparent)}
+.gst{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:11px;background:var(--card);border:1px solid var(--line);font-size:12.5px;white-space:nowrap}
+.gst b{font-weight:700}.gst svg{color:var(--accent)}
+.garr{display:inline-flex;color:var(--accent);opacity:.7}
+.gsteps{margin:8px 0;padding:0 20px 0 0;font-size:13.5px;line-height:1.85}.gsteps li{margin:6px 0}.gsteps li span{color:var(--muted);font-size:12.5px}
+.gtip{margin:8px 0;padding:8px 10px;border-radius:12px;background:var(--amber-soft);font-size:13px}
+.gbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.gshow{height:42px;padding:0 16px;display:inline-flex;gap:6px;align-items:center;background:var(--accent);color:var(--on-accent);border-radius:14px;font-weight:700}
+.gmore{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;align-items:center;font-size:12.5px;color:var(--muted)}
+.gmore .chip,.gb .gbtn{display:inline-flex;padding:7px 12px;border-radius:12px;border:1px solid var(--line);background:color-mix(in srgb,var(--accent) 8%,transparent);font-size:12.5px;color:var(--fg);line-height:1.5;text-align:right}
+.gbar{display:flex;align-items:center;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:var(--card);box-shadow:0 -2px 14px rgba(0,0,0,.06);flex:none}
+.gbar input{flex:1;min-width:0;height:48px;border-radius:24px;border:0;outline:0;background:color-mix(in srgb,var(--accent) 8%,var(--bg));padding:0 18px;font-size:15px;color:var(--fg)}
+.gplus{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent);flex:none;transition:transform .25s}
+.gplus.x{transform:rotate(45deg)}
+.gsend{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;flex:none;color:#fff;background:linear-gradient(145deg,var(--accent),color-mix(in srgb,var(--accent) 55%,#fff));box-shadow:0 4px 12px color-mix(in srgb,var(--accent) 40%,transparent)}
+.gsend svg{transform:scaleX(-1)}
+.gdown{position:absolute;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));width:42px;height:42px;margin-left:-21px;border-radius:50%;background:var(--card);color:var(--accent);display:grid;place-items:center;box-shadow:0 4px 16px rgba(0,0,0,.2);opacity:0;transform:scale(.6);pointer-events:none;transition:all .22s}
+.gdown.on{opacity:1;transform:none;pointer-events:auto}
+.gpop{position:absolute;left:auto;right:12px;bottom:calc(74px + env(safe-area-inset-bottom,0px));width:min(300px,calc(100% - 24px));background:var(--card);border-radius:18px;box-shadow:0 10px 34px rgba(0,0,0,.25);border:1px solid var(--line);transform-origin:bottom right;transform:scale(.4) translateY(20px);opacity:0;pointer-events:none;transition:all .25s cubic-bezier(.3,1.3,.5,1);overflow:hidden}
+.gpop.on{transform:none;opacity:1;pointer-events:auto}
+.gph{padding:10px 14px;font-weight:700;font-size:13px;color:var(--accent);border-bottom:1px solid var(--line)}
+.gpl{max-height:230px;overflow-y:auto}
+.gpl button{display:block;width:100%;text-align:right;padding:11px 14px;font-size:13.5px;border-bottom:1px solid color-mix(in srgb,var(--line) 60%,transparent);color:var(--fg)}
+.gpl button:active{background:color-mix(in srgb,var(--accent) 10%,transparent)}
+.gsub{position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0;transition:opacity .25s}
+.gsub.on{pointer-events:auto;opacity:1}
+.gsub.side{background:rgba(0,0,0,.4)}
+.gdr{position:absolute;top:0;bottom:0;right:0;width:78%;max-width:320px;background:var(--card);padding:calc(16px + env(safe-area-inset-top,0px)) 14px 20px;display:flex;flex-direction:column;gap:6px;box-shadow:-6px 0 24px rgba(0,0,0,.2);animation:gslide .28s cubic-bezier(.3,.9,.3,1)}
+@keyframes gslide{from{transform:translateX(100%)}}
+.gdh{display:flex;gap:10px;align-items:center;padding:4px 4px 14px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.gdh div{flex:1;display:flex;flex-direction:column;line-height:1.5}.gdh small{color:var(--muted);font-size:12px}
+.gx{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}
+.gdi{display:flex;align-items:center;gap:12px;padding:13px 12px;border-radius:14px;font-size:15px;text-align:right;color:var(--fg)}
+.gdi svg{color:var(--accent)}.gdi span{flex:1}.gdi small{color:var(--muted)}
+.gdi:active{background:color-mix(in srgb,var(--accent) 10%,transparent)}
+.gsub.full{background:color-mix(in srgb,var(--accent) 7%,var(--bg))}
+.gfull{position:absolute;inset:0;display:flex;flex-direction:column;animation:gfade .25s}
+@keyframes gfade{from{opacity:0;transform:translateY(14px)}}
+.gfh{display:flex;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top,0px)) 10px 10px;background:var(--card);box-shadow:0 2px 14px rgba(0,0,0,.06)}
+.gfh b{font-size:16px}.gfh span{width:40px}
+.gfb{flex:1;overflow-y:auto;padding:14px 14px 30px}
+.gsec{margin-bottom:16px}.gsh{display:flex;gap:8px;align-items:center;font-weight:800;color:var(--accent);margin:0 4px 8px;font-size:14px}
+.gbr{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;text-align:right;background:var(--card);padding:13px 14px;border-radius:14px;margin-bottom:6px;font-size:14px;box-shadow:0 1px 8px rgba(0,0,0,.04)}
+.gbr svg{color:var(--muted)}
+.gnote{text-align:center;color:var(--muted);font-size:13px;margin-top:14px;line-height:2}
+.gsv{margin-bottom:14px}
+.ghr{display:flex;align-items:center;gap:4px;background:var(--card);border-radius:14px;margin-bottom:8px;padding-left:4px}
+.ghm{flex:1;text-align:right;padding:12px 14px;display:flex;flex-direction:column;gap:2px}.ghm small{color:var(--muted);font-size:12px}
 
 </style>
 <div id="app"><main id="main"></main><nav class="bar" id="nav" aria-label="بخش‌های اصلی"></nav></div><div id="pages"></div><div id="sheets"></div>
@@ -1797,6 +1859,10 @@ const IC = {
   users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 19c.7-3.4 3.2-5 6.5-5s5.8 1.6 6.5 5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.5 0 4 1.4 4.5 4"/>',
   check: '<path d="M5 12.5l4.5 4.5L19 7"/>',
   edit: '<path d="M4 20h4L19 9l-4-4L4 16z"/>',
+  bookmark: '<path d="M7 4h10v16l-5-4-5 4z"/>',
+  clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/>',
+  send: '<path d="M4 12L20 4l-6 16-3-7z"/><path d="M11 13l9-9"/>',
+  flag: '<path d="M6 21V4M6 5h11l-2 4 2 4H6"/>',
   bot: '<rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 4v4M9 13h.01M15 13h.01M9.5 16.5h5M3 12v3M21 12v3"/><circle cx="12" cy="3.5" r="1"/>',
   mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/>',
   chart: '<path d="M4 20V5M4 20h16"/><path d="M8 15l3-4 3 2 4-6"/>',
@@ -1921,7 +1987,7 @@ function tabLedger() {
     const s = L.summary(S, { from: r && r.from, to: r && r.to, ledgerId: lid });
     status = '<div class="lbl">فروش و سود در این بازه</div><div class="val">' + mu(s.rev) + '</div><div class="lbl">سود ناخالص: <b class="' + (s.profit < 0 ? 'neg' : 'pos') + '">' + mu(s.profit) + '</b> • ' + fa(s.count) + ' فاکتور</div><div class="lbl">سود خالص شما (بعد از شرکا، ویزیتور و هزینه‌ها): <b class="' + (s.net < 0 ? 'neg' : 'pos') + '">' + mu(s.net) + '</b></div>';
   }
-  const head = '<div class="top"><div class="hrow"><span class="blogo" aria-hidden="true"></span><button class="ledger-pick tap" data-a="ledgers"><span class="t"><b>' + esc(ledger().name) + '</b><small>برای تغییر یا ویرایش دفتر کلیک کنید • ' + cur() + '</small></span>' + ico('down', 20) + '</button><button class="botb tap" data-a="bot" aria-label="راهنمای من">' + ico('bot', 24) + '</button></div>' +
+  const head = '<div class="top"><div class="lbox"><span class="blogo" aria-hidden="true"></span><button class="ledger-pick tap" data-a="ledgers"><span class="t"><b>' + esc(ledger().name) + '</b><small>برای تغییر یا ویرایش دفتر کلیک کنید • ' + cur() + '</small></span>' + ico('down', 20) + '</button><button class="botb tap" data-a="bot" aria-label="راهنمای من">' + ico('bot', 24) + '</button></div>' +
     '<div class="seg"><button class="tap' + (ui.sub === 'parties' ? ' on' : '') + '" data-a="sub" data-id="parties">طرف‌حساب‌ها</button><button class="tap' + (ui.sub === 'txns' ? ' on' : '') + '" data-a="sub" data-id="txns">تراکنش‌ها</button></div>' +
     rangeChips() +
     '<div class="status">' + status + '</div>' +
@@ -4914,7 +4980,7 @@ T('proforma', 'پیش‌فاکتور', 'پیش فاکتور پیشفاکتور �
 T('party_new', 'ثبت طرف‌حساب (مشتری یا تأمین‌کننده)', 'طرف حساب مشتری تامین کننده جدید ثبت مشتری ساختن مشتری اضافه کردن شخص اسم موبایل آدرس', 'مشتری و تأمین‌کننده هر دو «طرف‌حساب» هستند و یک‌جا ثبت می‌شوند. هر کدام که به او فروختی مشتری و هر کدام که از او خریدی تأمین‌کننده‌ی توست.',
   [TAB('ledger', 'دفتر', 'home'), st_('طرف‌حساب‌ها', 'users', '[data-a=sub][data-id=parties]', 1, 'مطمئن شو تب «طرف‌حساب‌ها» انتخاب است.'), st_('طرف‌حساب جدید', 'plus', '[data-a=newparty]', 1, 'دکمه‌ی «طرف‌حساب جدید» کنار +.'), st_('نام', 'edit', '#pn', 0, 'فقط نام لازم است؛ موبایل، آدرس و سقف اعتبار اختیاری‌اند.'), st_('ثبت', 'check', '[data-a=p-save]', 0)],
   ['party_page'], 'هنگام ثبت فاکتور هم می‌توانی از داخل انتخاب طرف‌حساب، «طرف‌حساب جدید» را بزنی.');
-T('prod_new', 'ثبت محصول جدید', 'محصول جدید کالا جدید تعریف محصول اضافه کردن محصول واحد کیلو بارکد دسته بندی هشدار موجودی', 'محصول را یک بار تعریف می‌کنی و بعد در خرید و فروش انتخابش می‌کنی.',
+T('prod_new', 'ثبت محصول جدید', 'محصول جدید کالا جدید تعریف محصول اضافه کردن محصول واحد کیلو دسته بندی هشدار موجودی', 'محصول را یک بار تعریف می‌کنی و بعد در خرید و فروش انتخابش می‌کنی.',
   [TAB('inv', 'انبار', 'box'), st_('محصول جدید', 'plus', '[data-a=newprod]', 1, 'دکمه‌ی «محصول جدید» کنار +.'), st_('نام محصول', 'edit', '#gn', 0, 'نام را بنویس و واحد (مثلاً کیلوگرم) را انتخاب کن. دسته، هشدار موجودی کم و بارکد اختیاری است.'), st_('ثبت', 'check', '[data-a=g-save]', 0)],
   ['buy'], 'هنگام ثبت خرید هم از داخل انتخاب محصول، «محصول جدید» را می‌توانی بزنی.');
 T('receipt', 'ثبت دریافت پول (پول گرفتم)', 'پول گرفتم دریافت وصول دریافتی تسویه مشتری پول داد کارتخوان کارت به کارت واریز', 'وقتی مشتری پولی به تو می‌دهد، «پول گرفتم» را ثبت می‌کنی تا بدهی‌اش کم شود و پول به حساب انتخابی (نقد یا بانک) اضافه شود.',
@@ -4933,7 +4999,7 @@ T('return', 'مرجوعی فروش یا خرید', 'مرجوعی برگشت بر
 T('blend', 'میکس و ترکیب ویژه (دان دلخواه مشتری)', 'میکس ترکیب ترکیبی بلند ویژه مخلوط دان رست شده درصد ترکیب سفارشی میکس بزنم', 'وقتی مشتری ترکیب دلخواه می‌خواهد (مثلاً ۶۰٪ عربیکا و ۴۰٪ روبوستا)، همان‌جا که قلم فروش را می‌افزایی، ترکیب را مشخص می‌کنی. اپ هر جزء را از انبار کم می‌کند و روی فاکتور همان یک نام را نشان می‌دهد.',
   [TAB('ledger', 'دفتر', 'home'), FAB, st_('محصول فروختم', 'tag', '[data-a=x-sale]', 1), st_('مشتری', 'user', '[data-a=inv-party]', 1, 'اول مشتری را انتخاب کن (ترکیب برای هر مشتری ذخیره می‌شود).'), st_('اضافه کردن محصول', 'plus', '[data-a=inv-add]', 1, 'محصول اصلی را انتخاب کن و وزن کل را بنویس.'), st_('تغییر ترکیب', 'tools', '[data-a=cp-on]', 0, 'دکمه‌ی «تغییر ترکیب» را بزن، دان‌های دیگر را اضافه کن و وزن هر کدام را بنویس؛ جمع وزن‌ها باید برابر وزن فروش باشد.'), st_('ذخیره‌ی ترکیب', 'check', '[data-a=cp-save]', 0, 'اگر خواستی «ذخیره ترکیب» را بزن تا دفعه‌ی بعد برای همین مشتری پیشنهاد شود.')],
   ['sale', 'stock_err'], 'مصرف دان‌ها خودکار از انبار کم می‌شود و بهای تمام‌شده‌ی میکس از قیمت دان‌های مصرف‌شده حساب می‌شود.');
-T('stock_err', 'خطای «موجودی کافی نیست»', 'موجودی کافی نیست خطا ثبت نمیشه ثبت نمی شود فروش ثبت نمیشه ارور موجودی صفر منفی', 'اپ اجازه نمی‌دهد بیشتر از موجودی انبار بفروشی. اگر محصول را خریده‌ای ولی در انبار نیست، خریدش را ثبت نکرده‌ای یا مقدار کم است.',
+T('stock_err', 'خطای «موجودی کافی نیست»', 'موجودی کافی نیست خطا ثبت نمیشه ثبت نمی شود فروش ثبت نمیشه ارور موجودی صفر منفی چرا نمیشه نمی شه ثبت نمی شه نمیشود', 'اپ اجازه نمی‌دهد بیشتر از موجودی انبار بفروشی. اگر محصول را خریده‌ای ولی در انبار نیست، خریدش را ثبت نکرده‌ای یا مقدار کم است.',
   [TAB('inv', 'انبار', 'box'), st_('موجودی محصول', 'box', '.list', 0, 'موجودی هر محصول را ببین.'), TAB('ledger', 'دفتر', 'home'), FAB, st_('محصول خریدم', 'cart', '[data-a=x-buy]', 1, 'اول خرید را ثبت کن (یا از «ورود / خروج انبار» موجودی اولیه را وارد کن).')], ['buy', 'stock_move']);
 T('stock_move', 'ورود، خروج، مصرف و ضایعات انبار', 'ورود خروج مصرف ضایعات حرکت انبار موجودی اولیه کم کردن موجودی ریختن دور افت', 'برای تغییر موجودی بدون خرید و فروش (مصرف داخلی، ضایعات، موجودی اولیه) از این بخش استفاده کن.',
   [TAB('ledger', 'دفتر', 'home'), FAB, st_('ورود / خروج انبار', 'box', '[data-a=sm-in]', 1, 'برای موجودی اولیه یا خروج بدون فروش.'), st_('مصرف / ضایعات', 'box', '[data-a=sm-use]', 0, 'برای مصرف داخلی یا ضایعات (کاهش موجودی).')], ['stocktake']);
@@ -4961,7 +5027,7 @@ T('visitors', 'ویزیتورها و پورسانت', 'ویزیتور پورسا
 T('ledger_new', 'ساخت دفتر جدید', 'دفتر جدید چند دفتر دفتر دوم تغییر دفتر کسب و کار دیگر', 'برای هر کسب‌وکار یا فعالیتی می‌توانی یک دفتر جدا داشته باشی.', [GO('ledgers', 'دفترها', 'book')], []);
 T('settings', 'تنظیمات (تم، واحد پول، مالیات)', 'تنظیمات تم شب روز واحد پول ریال تومان مالیات قیمت تمام شده اندازه فونت رنگ', 'تم روز/شب، اندازه‌ی نوشته، رنگ، واحد پول (ریال/تومان)، مالیات و روش محاسبه‌ی قیمت تمام‌شده در تنظیمات است.', [GO('settings', 'تنظیمات', 'gear')], []);
 T('sms', 'فاکتور متنی و پیامک', 'پیامک فاکتور متنی متن تشکر خوش آمدگویی ارسال پیامک', 'متن خوش‌آمدگویی و تشکر و اعتبار پیش‌فاکتور را بساز تا موقع ارسال فاکتور یا پیامک، خودکار اضافه شود.', [GO('sms', 'قالب‌های پیامک', 'note')], ['print']);
-T('barcode', 'اسکن بارکد', 'بارکد اسکن بارکد خوان دوربین', 'در فاکتور خرید و فروش می‌توانی با اسکن بارکد، محصول را سریع اضافه کنی (دکمه‌ی «اسکن بارکد» در فرم).', [], ['sale']);
+T('barcode', 'اسکن بارکد', 'بارکد اسکن بارکد خوان دوربین اضافه کردن محصول با بارکد سریع', 'در فاکتور خرید و فروش می‌توانی با اسکن بارکد، محصول را سریع اضافه کنی (دکمه‌ی «اسکن بارکد» در فرم).', [], ['sale']);
 T('gift', 'جایزه‌ی همراه کالا', 'جایزه هدیه رایگان همراه کالا گیفت بونوس', 'در فاکتور خرید «جایزه‌ی دریافتی از تأمین‌کننده» و در فروش «جایزه دادن به مشتری» هست تا کالای رایگان بدون قیمت ثبت شود و از انبار کم یا اضافه شود.', [], ['buy', 'sale']);
 T('today', 'صفحه‌ی امروز و سررسیدها', 'امروز سررسید یادآور داشبورد خلاصه کارهای مهم', 'فروش و سود امروز، چک‌های نزدیک سررسید و کارهای مهم را یک‌جا ببین.', [GO('today', 'امروز', 'calendar')], []);
 
@@ -4993,7 +5059,7 @@ function gData(q0) {
   const d0 = new Date(); d0.setHours(0, 0, 0, 0);
   const per = has(/هفته/) ? [Date.now() - 7 * 864e5, '۷ روز اخیر'] : has(/ماه/) ? [Date.now() - 30 * 864e5, '۳۰ روز اخیر'] : has(/دیروز/) ? [d0.getTime() - 864e5, 'دیروز', d0.getTime()] : [d0.getTime(), 'امروز'];
   if (has(/(فروش|فروخت|سود)/) && has(/(چقدر|چند|مبلغ|چنده|میزان|بود|شد)/) && !has(/چجوری|چطور|چگونه|ثبت/)) { const s = L.summary(S, { from: per[0], to: per[2] || Date.now() + 1, ledgerId: lid }); return 'فروش ' + per[1] + ': <b>' + mu(s.rev) + '</b> در ' + fa(s.count) + ' فاکتور.<br>سود: <b>' + mu(s.profit) + '</b>' + (s.count ? '' : '<br><small class="mut">هنوز فاکتوری برای این بازه ثبت نشده.</small>'); }
-  if (has(/(بدهکار|بستانکار|مانده|بدهی|طلب)/) && has(/(کیا|کی ها|کدام|لیست|چه کسانی|چند نفر)/) && !has(/چجوری|چطور/)) { const b = ps.map(p => [p, L.partyBal(S, p.id)]), pos = has(/بستانکار/), l = b.filter(x => pos ? x[1] < -1 : x[1] > 1).sort((a, c) => Math.abs(c[1]) - Math.abs(a[1])).slice(0, 6); return l.length ? (pos ? 'بستانکارها (تو به آنها بدهکاری):' : 'بدهکارها (به تو بدهکارند):') + '<br>' + l.map(x => '• ' + esc(x[0].name) + ': ' + mu(Math.abs(x[1]))).join('<br>') : (pos ? 'بستانکاری ثبت نشده.' : 'بدهکاری ثبت نشده.'); }
+  if (has(/(بدهکار|بستانکار|مانده|بدهی|طلب)/) && has(/(کیا|کی ها|کی هستن|کی هستند|کیان|کدام|لیست|چه کسانی|چند نفر|اسامی)/) && !has(/چجوری|چطور/)) { const b = ps.map(p => [p, L.partyBal(S, p.id)]), pos = has(/بستانکار/), l = b.filter(x => pos ? x[1] < -1 : x[1] > 1).sort((a, c) => Math.abs(c[1]) - Math.abs(a[1])).slice(0, 6); return l.length ? (pos ? 'بستانکارها (تو به آنها بدهکاری):' : 'بدهکارها (به تو بدهکارند):') + '<br>' + l.map(x => '• ' + esc(x[0].name) + ': ' + mu(Math.abs(x[1]))).join('<br>') : (pos ? 'بستانکاری ثبت نشده.' : 'بدهکاری ثبت نشده.'); }
   const pt = gMatch(q, ps, 1);
   if (pt && has(/(مانده|بدهکار|بستانکار|طلب|بدهی|حساب|چقدر)/) && !has(/چجوری|چطور|چگونه|ثبت کنم|بزنم/)) { const b = L.partyBal(S, pt.id); return 'حساب <b>' + esc(pt.name) + '</b>: ' + gBal(b) + '<div class="gbs">' + gBtn('g-party', pt.id, 'باز کردن پرونده') + '</div>'; }
   if (has(/(کم|رو به اتمام|تموم|تمام|کمبود|ته)/) && has(/(موجودی|محصول|کالا|انبار|شده|داره|دارم)/) && !has(/چجوری|چطور/)) { const low = S.products.filter(p => p.min && L.stockOf(S, p.id) <= p.min); if (low.length) return 'محصولات کم‌موجودی:<br>' + low.slice(0, 8).map(p => '• ' + esc(p.name) + ': ' + qf(L.stockOf(S, p.id)) + ' ' + esc(p.unit || '')).join('<br>'); const zero = S.products.filter(p => L.stockOf(S, p.id) <= 0); return (zero.length ? 'موجودی این‌ها صفر است:<br>' + zero.slice(0, 8).map(p => '• ' + esc(p.name)).join('<br>') + '<br>' : 'محصولی با هشدار موجودی کم ندارم. ') + '<small class="mut">برای هشدار، در فرم هر محصول «هشدار موجودی کم» را پر کن.</small>'; }
@@ -5011,34 +5077,134 @@ function gCard(t) {
   const flow = t.steps.length ? '<div class="gflow">' + t.steps.map(s => '<span class="gst">' + ico(s.ic, 18) + '<b>' + esc(s.l) + '</b></span>').join(gArrow) + '</div>' : '';
   const list = t.steps.length ? '<ol class="gsteps">' + t.steps.map(s => '<li><b>' + esc(s.l) + '</b>' + (s.d ? '<br><span>' + esc(s.d) + '</span>' : '') + '</li>').join('') + '</ol>' : '';
   const more = t.more.map(id => GK.find(x => x.id === id)).filter(Boolean);
-  return '<div class="gtit">' + esc(t.title) + '</div><div class="gtxt">' + esc(t.ans) + '</div>' + flow + list + (t.tips ? '<div class="gtip">💡 ' + esc(t.tips) + '</div>' : '') +
-    '<div class="gbs">' + (t.steps.some(s => s.sel) ? '<button class="btn tap gshow" data-a="g-show" data-id="' + t.id + '">' + ico('route', 18) + 'نشونم بده روی اپ</button>' : '') + '</div>' +
-    (more.length ? '<div class="gmore">مرتبط:' + more.map(m => '<button class="chip tap" data-a="g-topic" data-id="' + m.id + '">' + esc(m.title) + '</button>').join('') + '</div>' : '');
+  return '<div class="gcard"><div class="gtit">' + esc(t.title) + '</div><div class="gtxt">' + esc(t.ans) + '</div>' + flow + list + (t.tips ? '<div class="gtip">💡 ' + esc(t.tips) + '</div>' : '') +
+    '<div class="gbs gfin">' + (t.steps.some(s => s.sel) ? '<button class="btn tap gshow" data-a="g-show" data-id="' + t.id + '">' + ico('route', 18) + 'نشونم بده روی اپ</button>' : '') + '</div>' +
+    (more.length ? '<div class="gmore gfin">مرتبط:' + more.map(m => '<button class="chip tap" data-a="g-topic" data-id="' + m.id + '">' + esc(m.title) + '</button>').join('') + '</div>' : '') + '</div>';
 }
-const gBub = m => '<div class="gb ' + (m.me ? 'me' : 'bt') + '">' + m.h + '</div>';
-function gPush(h, me) { gd.chat.push({ me: !!me, h }); const c = $('#gchat'); if (c) { c.insertAdjacentHTML('beforeend', gBub(gd.chat[gd.chat.length - 1])); setTimeout(() => { c.scrollTop = c.scrollHeight; }, 30); } }
 const GSUG = ['چجوری فاکتور فروش بزنم؟', 'محصول خریدم', 'تأمین‌کننده را چطور ثبت کنم؟', 'میخوام میکس ترکیبی بزنم', 'پول گرفتم رو چطور ثبت کنم؟', 'امروز چقدر فروختم؟', 'بدهکارها کی هستن؟', 'چجوری پشتیبان بگیرم؟'];
-const gChips = a => '<div class="gmore">' + a.map(x => '<button class="chip tap" data-a="g-q" data-t="' + esc(x) + '">' + esc(x) + '</button>').join('') + '</div>';
-function gAsk(txt) {
-  const q = txt.trim(); if (!q) return; gPush(esc(q), 1);
-  const d = gData(q); if (d) return gPush(d);
+const GQ40 = ['چجوری فاکتور فروش بزنم؟', 'محصولی که خریدم رو چطور ثبت کنم؟', 'مشتری یا تأمین‌کننده جدید چطور ثبت می‌شود؟', 'محصول جدید چطور تعریف کنم؟', 'پول گرفتم رو چطور ثبت کنم؟', 'پول دادم رو چطور ثبت کنم؟', 'به تأمین‌کننده پیش‌پرداخت دادم، چطور ثبت کنم؟', 'هزینه‌ها رو چطور ثبت کنم؟', 'درآمد غیر از فروش رو کجا ثبت کنم؟', 'مرجوعی کالا رو چطور ثبت کنم؟',
+  'میخوام میکس ترکیبی بزنم، راهنماییم کن', 'پیش‌فاکتور رو چطور بزنم؟', 'پیش‌فاکتور رو چطور به فاکتور تبدیل کنم؟', 'چک دریافتی رو چطور ثبت کنم؟', 'بدهکار و بستانکار یعنی چی؟', 'فرق نقدی، کارتخوان و نسیه چیه؟', 'چرا فاکتور فروش ثبت نمی‌شه؟', 'موجودی انبار رو چطور اصلاح کنم؟', 'ضایعات و مصرف داخلی رو چطور ثبت کنم؟', 'حساب بانکی جدید چطور بسازم؟',
+  'لوگوی فاکتور رو چطور عوض کنم؟', 'نوشته‌ی پایین فاکتور رو چطور تغییر بدم؟', 'شماره کارت چطور روی فاکتور بیاد؟', 'فاکتور رو چطور چاپ یا ارسال کنم؟', 'فاکتور اشتباه ثبت شده، چطور ویرایش یا حذف کنم؟', 'اشتباهی چیزی رو حذف کردم، چطور برگردونم؟', 'چجوری پشتیبان بگیرم؟', 'گزارش فروش و سود رو کجا ببینم؟', 'امروز چقدر فروختم؟', 'بدهکارها کی هستن؟',
+  'چه محصولاتی کم شده؟', 'چه چیزی بخرم؟', 'تم و رنگ اپ رو کجا عوض کنم؟', 'واحد پول رو از ریال به تومان چطور تغییر بدم؟', 'دفتر جدید چطور بسازم؟', 'جایزه همراه کالا رو چطور ثبت کنم؟', 'با بارکد چطور محصول اضافه کنم؟', 'فاکتور متنی و پیامک چطور کار می‌کنه؟', 'پورسانت ویزیتور رو کجا ببینم؟', 'شرکا و سهم سود رو کجا ببینم؟'];
+/* ---- ذخیره‌سازی: چت‌ها و پاسخ‌های ذخیره‌شده ---- */
+const gLS = (k, d) => { try { return JSON.parse(localStorage.getItem(k) || 'null') || d; } catch (e) { return d; } };
+const gSV = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+const gtime = ts => { const d = new Date(ts || Date.now()); let h = d.getHours(), m = d.getMinutes(); const ap = h >= 12 ? 'ب.ظ' : 'ق.ظ'; h = h % 12 || 12; return fa(h) + ':' + fa(String(m).padStart(2, '0')) + ' ' + ap; };
+const gid = () => Math.random().toString(36).slice(2, 9);
+gd.cur = null;
+const gChats = () => gLS('broast-chats', []);
+function gSaveChat() { if (!gd.cur || !gd.cur.msgs.some(m => m.me)) return; const a = gChats().filter(c => c.id !== gd.cur.id); a.unshift(gd.cur); gSV('broast-chats', a.slice(0, 30)); }
+function gNewChat() { gd.cur = { id: gid(), ts: Date.now(), title: '', msgs: [{ id: gid(), me: 0, ts: Date.now(), h: '<div class="gcard"><b>سلام! من «راهنمای من» هستم 👋</b><br>هر چیزی درباره‌ی اپ بپرس؛ مسیر را با فلش نشانت می‌دهم و اگر بخواهی خودم روی اپ نشانت می‌دهم. به اطلاعات دفترت هم دسترسی دارم: مانده‌ی حساب‌ها، موجودی و فروش.</div>', hi: 1 }] }; }
+const gAv = '<span class="gav">' + ico('bot', 18) + '</span>';
+function gMsgHtml(m) {
+  if (m.me) return '<div class="gm me" data-id="' + m.id + '"><div class="gb me">' + m.h + '</div><div class="gts">' + gtime(m.ts) + ' <span class="gtick">' + ico('check', 13) + ico('check', 13) + '</span></div></div>';
+  return '<div class="gm bt" data-id="' + m.id + '">' + gAv + '<div class="gcol"><div class="gb bt">' + m.h + '</div>' + (m.hi ? '' : gActs(m)) + '<div class="gts">' + gtime(m.ts) + '</div></div></div>';
+}
+const gActs = m => '<div class="gact">' + '<button class="tap" data-a="g-copy" data-id="' + m.id + '" aria-label="کپی">' + ico('copy', 17) + '</button><button class="tap' + (gSaved().some(x => x.id === m.id) ? ' on' : '') + '" data-a="g-save" data-id="' + m.id + '" aria-label="ذخیره">' + ico('bookmark', 17) + '</button><button class="tap" data-a="g-del" data-id="' + m.id + '" aria-label="حذف">' + ico('trash', 17) + '</button></div>';
+const gSaved = () => gLS('broast-gsaved', []);
+const gEl = () => $('#gpg'), gMsgs = () => $('#gmsgs');
+function gToBottom(smooth) { const c = gMsgs(); if (c) c.scrollTo({ top: c.scrollHeight, behavior: smooth ? 'smooth' : 'instant' }); }
+function gArrowChk() { const c = gMsgs(), b = $('#gdown'); if (!c || !b) return; b.classList.toggle('on', c.scrollHeight - c.scrollTop - c.clientHeight > 140); }
+function gAdd(m, animate) { gd.cur.msgs.push(m); const c = gMsgs(); if (c) { c.insertAdjacentHTML('beforeend', gMsgHtml(m)); if (animate !== false) gToBottom(true); } gSaveChat(); }
+/* نوشتن زنده‌ی جواب: حرف‌به‌حرف، با نمایش تدریجی بلوک‌ها */
+function gTypeInto(el, done) {
+  const tn = []; const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, { acceptNode: n => n.nodeValue.trim() && !n.parentElement.closest('.gfin') ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT }); let n; while ((n = w.nextNode())) tn.push([n, n.nodeValue]);
+  const total = tn.reduce((a, x) => a + x[1].length, 0), per = Math.max(2, Math.ceil(total / 250)), blocks = [...el.querySelectorAll('.gcard>*')];
+  const fin = el.querySelectorAll('.gfin'); fin.forEach(f => { f.style.display = 'none'; });
+  const shown = new Set(); tn.forEach(x => { x[0].nodeValue = ''; const b = blocks.find(b => b.contains(x[0])); if (b && b !== blocks[0]) b.style.display = 'none'; });
+  let i = 0, k = 0, stop = 0; gd.typing = () => { stop = 1; };
+  const tick = () => { if (stop || !document.body.contains(el)) { tn.forEach(x => { x[0].nodeValue = x[1]; }); blocks.forEach(b => { b.style.display = ''; }); fin.forEach(f => { f.style.display = ''; }); return done(); }
+    let c = per; while (c > 0 && i < tn.length) { const [nd, full] = tn[i]; const b = blocks.find(b => b.contains(nd)); if (b) b.style.display = ''; const take = Math.min(c, full.length - k); k += take; c -= take; nd.nodeValue = full.slice(0, k); if (k >= full.length) { i++; k = 0; } }
+    gToBottom(false); if (i >= tn.length) { blocks.forEach(b => { b.style.display = ''; }); fin.forEach(f => { f.style.display = ''; }); gToBottom(true); return done(); } setTimeout(tick, 28); };
+  tick();
+}
+function gReply(h) {
+  const c = gMsgs(); const lid = 'ld' + gid();
+  c.insertAdjacentHTML('beforeend', '<div class="gm bt" id="' + lid + '">' + gAv + '<div class="gcol"><div class="gb bt gload"><i></i><i></i><i></i></div></div></div>'); gToBottom(true); gd.wait = 1;
+  setTimeout(() => {
+    const m = { id: gid(), me: 0, ts: Date.now(), h }, ld = document.getElementById(lid); if (!ld) { gd.wait = 0; return; }
+    gd.cur.msgs.push(m); ld.outerHTML = gMsgHtml({ ...m, hi: 1 }); const node = c.querySelector('[data-id="' + m.id + '"] .gb'); const sendBtn = $('#gsend');
+    gTypeInto(node, () => { gd.wait = 0; gd.typing = null; const col = node.parentElement; col.insertAdjacentHTML('beforeend', ''); const ac = document.createElement('div'); ac.innerHTML = gActs(m); col.insertBefore(ac.firstChild, col.querySelector('.gts')); gSaveChat(); gToBottom(true); });
+  }, 2000);
+}
+function gAnswerHtml(q) {
+  const d = gData(q); if (d) return '<div class="gcard">' + d + '</div>';
   const r = gSearch(q);
-  if (!r.length) { try { const k = 'broast-gmiss', a = JSON.parse(localStorage.getItem(k) || '[]'); a.push(q); localStorage.setItem(k, JSON.stringify(a.slice(-50))); } catch (e) {} return gPush('دقیق متوجه نشدم 🙏 می‌توانی ساده‌تر یا با کلمه‌ی اصلی بپرسی؟ مثلاً «ثبت خرید»، «چک»، «پشتیبان».<br>این‌ها را زیاد می‌پرسند:' + gChips(GSUG.slice(0, 5))); }
-  if (r.length > 1 && r[1].sc >= r[0].sc * 0.9 && r[0].sc < 14) return gPush('منظورت کدام است؟' + '<div class="gmore">' + r.slice(0, 3).map(x => '<button class="chip tap" data-a="g-topic" data-id="' + x.t.id + '">' + esc(x.t.title) + '</button>').join('') + '</div>');
-  gPush(gCard(r[0].t));
+  if (!r.length) { try { const k = 'broast-gmiss', a = JSON.parse(localStorage.getItem(k) || '[]'); a.push(q); localStorage.setItem(k, JSON.stringify(a.slice(-50))); } catch (e) {} return '<div class="gcard">دقیق متوجه نشدم 🙏 می‌توانی ساده‌تر یا با کلمه‌ی اصلی بپرسی؟ مثلاً «ثبت خرید»، «چک»، «پشتیبان».<div class="gmore gfin">' + GSUG.slice(0, 4).map(x => '<button class="chip tap" data-a="g-q" data-t="' + esc(x) + '">' + esc(x) + '</button>').join('') + '</div></div>'; }
+  if (r.length > 1 && r[1].sc >= r[0].sc * 0.9 && r[0].sc < 14) return '<div class="gcard">منظورت کدام است؟<div class="gmore gfin">' + r.slice(0, 3).map(x => '<button class="chip tap" data-a="g-topic" data-id="' + x.t.id + '">' + esc(x.t.title) + '</button>').join('') + '</div></div>';
+  return gCard(r[0].t);
+}
+function gAsk(txt) {
+  const q = (txt || '').trim(); if (!q || gd.wait) return; gPop(0);
+  if (!gd.cur.title) gd.cur.title = q.slice(0, 50);
+  gAdd({ id: gid(), me: 1, ts: Date.now(), h: esc(q) }); gReply(gAnswerHtml(q));
+}
+const GICONS = '';
+function gOpenView(v, arg) {
+  const el = gEl(); if (!el) return; gd.view = v; el.dataset.v = v; const main = $('#gview', el), ttl = $('#gvt', el);
+  if (v === 'chat') { main.innerHTML = ''; return; }
+}
+function gShell() {
+  return '<div class="ghead"><button class="tap gh-btn" data-a="g-menu" aria-label="منو">' + ico('menu', 24) + '</button><div class="gh-mid"><span class="gav big">' + ico('bot', 26) + '</span><b>راهنمای من</b><small><i class="gdot"></i>همیشه کنارتم</small></div><button class="tap gh-btn" data-a="g-hist" aria-label="چت‌های ذخیره‌شده">' + ico('clock', 24) + '</button></div>' +
+    '<div class="gmsgs" id="gmsgs"></div><button class="tap gdown" id="gdown" data-a="g-down" aria-label="رفتن به آخر چت">' + ico('down', 22) + '</button>' +
+    '<div class="gpop" id="gpop"></div>' +
+    '<div class="gbar"><button class="tap gplus" id="gplus" data-a="g-plus" aria-label="سوال‌های آماده">' + ico('plus', 24) + '</button><input id="gin" placeholder="سوالت رو بنویس…" autocomplete="off" enterkeyhint="send"><button class="tap gsend" id="gsend" data-a="g-send" aria-label="ارسال">' + ico('send', 22) + '</button></div>' +
+    '<div class="gsub" id="gsub"></div>';
 }
 function guideOpen() {
-  const p = openPage({ title: 'راهنمای من', body: '<div id="gchat" class="gchat"></div>', foot: '<div class="gin"><input id="gin" placeholder="هر سوالی درباره‌ی اپ داری بپرس…" autocomplete="off" enterkeyhint="send"><button class="gsend tap" data-a="g-send" aria-label="ارسال">' + ico('left', 20) + '</button></div>' });
-  gd.page = p; const c = $('#gchat', p.el);
-  if (!gd.chat.length) gd.chat.push({ me: false, h: '<b>سلام! من «راهنمای من» هستم 👋</b><br>هر چیزی درباره‌ی اپ بپرس؛ مسیر را با فلش نشانت می‌دهم و اگر بخواهی خودم روی اپ نشانت می‌دهم. به اطلاعات خود دفترت هم دسترسی دارم و می‌توانم مانده‌ی حساب‌ها، موجودی و فروش را بگویم.' + gChips(GSUG) });
-  c.innerHTML = gd.chat.map(gBub).join(''); c.scrollTop = c.scrollHeight;
-  const i = $('#gin', p.el); i.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); A['g-send'](); } });
+  let el = gEl(); if (el) el.remove();
+  el = document.createElement('div'); el.id = 'gpg'; el.innerHTML = gShell(); document.body.appendChild(el);
+  if (!gd.cur) gNewChat();
+  $('#gmsgs').innerHTML = gd.cur.msgs.map(gMsgHtml).join(''); gToBottom(false); setTimeout(() => { gToBottom(false); gArrowChk(); }, 60);
+  $('#gmsgs').addEventListener('scroll', gArrowChk, { passive: true });
+  $('#gin').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); A['g-send'](); } });
+  try { history.pushState({ g: 1 }, ''); gd.hist = 1; } catch (e) {}
+  requestAnimationFrame(() => el.classList.add('in'));
+}
+function gClose() { const el = gEl(); if (!el) return; gPop(0); el.classList.remove('in'); setTimeout(() => el.remove(), 250); if (gd.hist) { gd.hist = 0; try { history.state && history.state.g && history.back(); } catch (e) {} } }
+window.addEventListener('popstate', () => { if (gEl() && gd.hist) { gd.hist = 0; const el = gEl(); el.classList.remove('in'); setTimeout(() => el.remove(), 250); } });
+function gPop(on) { const p = $('#gpop'); if (!p) return; if (on) { p.innerHTML = '<div class="gph">سوال‌های آماده</div><div class="gpl">' + GQ40.map(q => '<button class="tap" data-a="g-q" data-t="' + esc(q) + '">' + esc(q) + '</button>').join('') + '</div>'; p.classList.add('on'); $('#gplus').classList.add('x'); } else { p.classList.remove('on'); const b = $('#gplus'); b && b.classList.remove('x'); } }
+/* سایدبار همبرگری: چت جدید / دفترچه راهنما / ذخیره‌ها */
+function gSheet(html, cls) { const s = $('#gsub'); s.className = 'gsub on ' + (cls || ''); s.innerHTML = html; }
+function gSheetClose() { const s = $('#gsub'); if (s) { s.className = 'gsub'; } }
+const GBOOK = [['شروع کار', 'flag', ['profile', 'ledger_new', 'settings', 'party_new', 'prod_new', 'account_new']], ['خرید و فروش', 'cart', ['buy', 'sale', 'proforma', 'blend', 'return', 'gift', 'barcode', 'stock_err']], ['پول و حساب‌ها', 'coin', ['receipt', 'payment', 'pay_supplier', 'expense', 'income', 'cheque', 'pay_types', 'debt_concept', 'party_page']], ['انبار', 'box', ['stock_move', 'stocktake', 'purch', 'catalog']], ['گزارش و ابزارها', 'chart', ['reports', 'stats', 'today', 'partners', 'visitors', 'print', 'invset', 'sms', 'backup', 'snaps']]];
+function gMenu() {
+  gSheet('<div class="gdr"><div class="gdh"><span class="gav big">' + ico('bot', 26) + '</span><div><b>راهنمای من</b><small>دفترچه‌ی راهنما و ذخیره‌ها</small></div><button class="tap gx" data-a="g-sub-x" aria-label="بستن">' + ico('close', 20) + '</button></div>' +
+    '<button class="gdi tap" data-a="g-new">' + ico('plus', 22) + '<span>چت جدید</span></button>' +
+    '<button class="gdi tap" data-a="g-book">' + ico('book', 22) + '<span>دفترچه راهنما</span><small>' + fa(GK.length) + ' آموزش</small></button>' +
+    '<button class="gdi tap" data-a="g-saved">' + ico('bookmark', 22) + '<span>ذخیره‌ها</span><small>' + fa(gSaved().length) + '</small></button>' +
+    '<button class="gdi tap" data-a="g-exit">' + ico('back', 22) + '<span>بازگشت به اپ</span></button></div>', 'side');
+}
+function gBook(open) {
+  const body = GBOOK.map(([t, ic, ids]) => '<div class="gsec"><div class="gsh">' + ico(ic, 18) + t + '</div>' + ids.map(id => GK.find(x => x.id === id)).filter(Boolean).map(k => '<button class="gbr tap" data-a="g-bk" data-id="' + k.id + '"><span>' + esc(k.title) + '</span>' + ico('left', 16) + '</button>').join('') + '</div>').join('');
+  gSheet('<div class="gfull"><div class="gfh"><button class="tap gx" data-a="g-menu" aria-label="برگشت">' + ico('back', 22) + '</button><b>دفترچه راهنما</b><span></span></div><div class="gfb">' + body + '<div class="gnote">بخش‌های بیشتر به‌مرور اضافه می‌شود.</div></div></div>', 'full');
+}
+function gBookTopic(id) { const k = GK.find(x => x.id === id); if (!k) return; gSheet('<div class="gfull"><div class="gfh"><button class="tap gx" data-a="g-book" aria-label="برگشت">' + ico('back', 22) + '</button><b>' + esc(k.title) + '</b><span></span></div><div class="gfb"><div class="gb bt wide">' + gCard(k) + '</div></div></div>', 'full'); }
+function gSavedView() {
+  const a = gSaved(); gSheet('<div class="gfull"><div class="gfh"><button class="tap gx" data-a="g-menu" aria-label="برگشت">' + ico('back', 22) + '</button><b>ذخیره‌ها</b><span></span></div><div class="gfb">' + (a.length ? a.map(x => '<div class="gsv"><div class="gb bt wide">' + x.h + '</div><div class="gact"><button class="tap" data-a="g-svcopy" data-id="' + x.id + '">' + ico('copy', 17) + '</button><button class="tap" data-a="g-svdel" data-id="' + x.id + '">' + ico('trash', 17) + '</button><span class="gts">' + gtime(x.ts) + '</span></div></div>').join('') : '<div class="gnote" style="margin-top:40px">هنوز جوابی ذخیره نکرده‌ای.<br>زیر هر جواب روی علامت نشان ذخیره بزن.</div>') + '</div></div>', 'full');
+}
+function gHist() {
+  const a = gChats(); gSheet('<div class="gfull"><div class="gfh"><button class="tap gx" data-a="g-sub-x" aria-label="بستن">' + ico('close', 22) + '</button><b>چت‌های ذخیره‌شده</b><span></span></div><div class="gfb">' + (a.length ? a.map(c => '<div class="ghr"><button class="tap ghm" data-a="g-open" data-id="' + c.id + '"><b>' + esc(c.title || 'چت') + '</b><small>' + fa(c.msgs.filter(m => m.me).length) + ' سوال • ' + new Date(c.ts).toLocaleDateString('fa-IR') + '</small></button><button class="tap gx" data-a="g-chdel" data-id="' + c.id + '" aria-label="حذف">' + ico('trash', 18) + '</button></div>').join('') : '<div class="gnote" style="margin-top:40px">هنوز چتی ذخیره نشده.<br>چت‌هایت خودکار اینجا ذخیره می‌شوند.</div>') + '</div></div>', 'full');
 }
 A.bot = () => guideOpen();
 A['g-send'] = () => { const i = $('#gin'); if (!i) return; const v = i.value; i.value = ''; gAsk(v); };
 A['g-q'] = t => gAsk(t.dataset.t);
-A['g-topic'] = t => { const k = GK.find(x => x.id === t.dataset.id); if (k) { gPush(esc(k.title), 1); gPush(gCard(k)); } };
-A['g-party'] = t => { if (gd.page) gd.page.close(); setTimeout(() => openParty(t.dataset.id), 250); };
+A['g-topic'] = t => { const k = GK.find(x => x.id === t.dataset.id); if (k && !gd.wait) { gAdd({ id: gid(), me: 1, ts: Date.now(), h: esc(k.title) }); gReply(gCard(k)); } };
+A['g-plus'] = () => { const p = $('#gpop'); gPop(!p.classList.contains('on')); };
+A['g-down'] = () => gToBottom(true);
+A['g-menu'] = () => gMenu(); A['g-sub-x'] = () => gSheetClose(); A['g-book'] = () => gBook(); A['g-bk'] = t => gBookTopic(t.dataset.id); A['g-saved'] = () => gSavedView(); A['g-hist'] = () => gHist();
+A['g-exit'] = () => gClose();
+A['g-new'] = () => { gSaveChat(); gNewChat(); gSheetClose(); $('#gmsgs').innerHTML = gd.cur.msgs.map(gMsgHtml).join(''); gToBottom(false); };
+A['g-open'] = t => { const c = gChats().find(x => x.id === t.dataset.id); if (!c) return; gSaveChat(); gd.cur = c; gSheetClose(); $('#gmsgs').innerHTML = c.msgs.map(m => gMsgHtml({ ...m, hi: 0 })).join(''); gToBottom(false); setTimeout(() => { gToBottom(false); gArrowChk(); }, 50); };
+A['g-chdel'] = t => { gSV('broast-chats', gChats().filter(c => c.id !== t.dataset.id)); if (gd.cur && gd.cur.id === t.dataset.id) { gNewChat(); $('#gmsgs').innerHTML = gd.cur.msgs.map(gMsgHtml).join(''); } gHist(); };
+const gPlain = h => { const d = document.createElement('div'); d.innerHTML = h; d.querySelectorAll('.gfin,.gact,.gts,svg').forEach(x => x.remove()); return d.innerText.replace(/\n{3,}/g, '\n\n').trim(); };
+function gCopy(text) { const ok = () => toast('کپی شد'), fb = () => { const t = document.createElement('textarea'); t.value = text; t.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); ok(); } catch (x) {} t.remove(); }; try { navigator.clipboard.writeText(text).then(ok, fb); } catch (e) { fb(); } }
+A['g-copy'] = t => { const m = gd.cur.msgs.find(x => x.id === t.dataset.id); if (m) { const d = document.querySelector('#gmsgs [data-id="' + m.id + '"] .gb'); gCopy(d ? gPlain(d.innerHTML) : gPlain(m.h)); } };
+A['g-save'] = t => { const id = t.dataset.id, m = gd.cur.msgs.find(x => x.id === id); if (!m) return; let a = gSaved(); if (a.some(x => x.id === id)) { a = a.filter(x => x.id !== id); t.classList.remove('on'); toast('از ذخیره‌ها برداشته شد'); } else { a.unshift({ id, h: m.h, ts: Date.now() }); t.classList.add('on'); toast('در ذخیره‌ها ذخیره شد'); } gSV('broast-gsaved', a); };
+A['g-del'] = t => { const id = t.dataset.id; gd.cur.msgs = gd.cur.msgs.filter(x => x.id !== id); const e = document.querySelector('#gmsgs [data-id="' + id + '"]'); if (e) { e.style.transition = 'all .25s'; e.style.opacity = 0; e.style.transform = 'scale(.95)'; setTimeout(() => e.remove(), 250); } gSaveChat(); };
+A['g-svdel'] = t => { gSV('broast-gsaved', gSaved().filter(x => x.id !== t.dataset.id)); gSavedView(); };
+A['g-svcopy'] = t => { const m = gSaved().find(x => x.id === t.dataset.id); if (m) gCopy(gPlain(m.h)); };
+A['g-party'] = t => { gClose(); setTimeout(() => openParty(t.dataset.id), 300); };
 /* ---------- نشان‌دادن روی خود اپ (فقط اشاره و عبور؛ هیچ‌چیز ثبت نمی‌شود) ---------- */
 async function wf(sel, ms) { const t0 = Date.now(); while (Date.now() - t0 < (ms || 2200)) { const e = gFind(sel); if (e) return e; await sleep(70); } return null; }
 function gTop() { const sh = document.querySelectorAll('#sheets>.sw'); if (sh.length) return sh[sh.length - 1]; const pg = document.querySelectorAll('#pages>*'); return pg.length ? pg[pg.length - 1] : document.body; }
@@ -5055,7 +5221,7 @@ async function gCloseAll() { for (let i = 0; i < 8; i++) { const sh = document.q
 function gBar(txt, on) { let b = $('#gbar'); if (!b) { b = document.createElement('div'); b.id = 'gbar'; document.body.appendChild(b); } if (!txt) { b.style.display = 'none'; return; } b.style.display = 'flex'; b.innerHTML = '<span>' + txt + '</span>' + on; }
 A['g-show'] = async t => {
   const k = GK.find(x => x.id === t.dataset.id); if (!k || gd.busy) return; gd.busy = 1; gd.stop = 0; gd.last = k.id;
-  if (gd.page) gd.page.close(); await sleep(350); await gCloseAll();
+  gClose(); await sleep(400); await gCloseAll();
   try {
     for (let i = 0; i < k.steps.length && !gd.stop; i++) {
       const s = k.steps[i]; gBar('مرحله ' + fa(i + 1) + ' از ' + fa(k.steps.length) + ': ' + esc(s.l), '<button class="tap" data-a="g-stop">توقف</button>');
@@ -5072,6 +5238,7 @@ A['g-stop'] = () => { gd.stop = 1; };
 A['g-end'] = () => { gBar(''); gRing(null); };
 A['g-back'] = () => { gBar(''); gRing(null); guideOpen(); };
 try { window.__hesab.g = { gtok, gSearch, GK }; } catch (e) {}
+try { window.__hesab.g.GQ40 = GQ40; window.__hesab.g.gAnswerHtml = gAnswerHtml; } catch (e) {}
 
 })();
 </script>
